@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+log() { printf "%s\n" "$@"; }
+
+invalid() { printf "Invalid option: %s\n" "$*"; }
+
+check_cmd() {
+    if ! command -v "$1" >/dev/null; then
+        log "Missing $1!"
+        case "$1" in
+            air) log "Install it with 'go get -u github.com/cosmtrek/air'" ;;
+            inotify*) log "Install 'notify-tools' with your package manager" ;;
+        esac
+        return 1
+    fi
+}
+
+check_dir() {
+    pwd="$(pwd)"
+    cd "${pwd%/tools}"
+}
+
+export_secrets() {
+    set -a
+    source ./.auth
+    set +a
+}
+
+prod() {
+    log "prod"
+    check_dir
+    export_secrets
+    pkger
+    GOOS=linux GOARCH=arm64 go build \
+        -ldflags '-s -w -extldflags "-fno-PIC -static"' \
+        -buildmode pie -tags 'osusergo netgo static_build'
+    echo $PASSWORD | ssh $SSHServer 'sudo -S systemctl stop site.service'
+    scp ./rpiSite $SSHServer:/home/gusted/site
+    echo $PASSWORD | ssh $SSHServer 'sudo -S systemctl start site.service'
+}
+
+dev() {
+    log "dev"
+    check_cmd air
+    check_dir
+    export_secrets
+    env DEBUG="true" \
+        air
+}
+
+build() {
+    log "build"
+    check_dir
+    rm "./pkged.go"
+    
+    GOOS=linux go build \
+        -ldflags '-s -w -extldflags "-fno-PIC -static"' \
+        -buildmode pie -tags 'osusergo netgo static_build'
+}
+
+case "$1" in
+    build) build "$@" ;;
+    prod)  prod  "$@" ;;
+    dev)   dev   "$@" ;;
+    *) invalid   "$@" ;;
+esac
