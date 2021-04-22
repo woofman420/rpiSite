@@ -27,7 +27,7 @@ func proxyHeader() (s string) {
 	return s
 }
 
-func JsonDecoder(v interface{}) ([]byte, error) {
+func JsonEncoder(v interface{}) ([]byte, error) {
 	return utils.S2b(oj.JSON(v, oj.Options{OmitNil: true})), nil
 }
 
@@ -37,8 +37,9 @@ func Initalize() {
 		Views:                 renderEngine(),
 		ProxyHeader:           proxyHeader(),
 		Prefork:               true,
-		JSONEncoder:           JsonDecoder,
+		JSONEncoder:           JsonEncoder,
 	})
+
 	app.Use(compress.New())
 	if config.IS_DEBUG != "false" {
 		app.Use(limiter.New(limiter.Config{Max: 150}))
