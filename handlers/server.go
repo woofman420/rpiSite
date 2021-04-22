@@ -4,12 +4,14 @@ import (
 	"log"
 	"rpiSite/config"
 	"rpiSite/handlers/common"
+	"rpiSite/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/template/html"
 	"github.com/markbates/pkger"
+	"github.com/ohler55/ojg/oj"
 )
 
 func renderEngine() *html.Engine {
@@ -25,12 +27,17 @@ func proxyHeader() (s string) {
 	return s
 }
 
+func JsonDecoder(v interface{}) ([]byte, error) {
+	return utils.S2b(oj.JSON(v, oj.Options{OmitNil: true})), nil
+}
+
 func Initalize() {
 	app := fiber.New(fiber.Config{
 		DisableStartupMessage: config.IS_DEBUG == "false",
 		Views:                 renderEngine(),
 		ProxyHeader:           proxyHeader(),
 		Prefork:               true,
+		JSONEncoder:           JsonDecoder,
 	})
 	app.Use(compress.New())
 	if config.IS_DEBUG != "false" {
