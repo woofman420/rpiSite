@@ -1,0 +1,3 @@
+# Have Public authentication enabled on SSHServer.
+SSHServer=example@1.1.1.1
+PASSWORD=passwordForUserExample

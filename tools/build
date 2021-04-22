@@ -9,7 +9,6 @@ check_cmd() {
         log "Missing $1!"
         case "$1" in
             air) log "Install it with 'go get -u github.com/cosmtrek/air'" ;;
-            inotify*) log "Install 'notify-tools' with your package manager" ;;
         esac
         return 1
     fi
