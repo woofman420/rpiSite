@@ -41,7 +41,7 @@ func Initalize() {
 	})
 
 	app.Use(compress.New())
-	if config.IS_DEBUG != "false" {
+	if config.IS_DEBUG == "false" {
 		app.Use(limiter.New(limiter.Config{Max: 150}))
 	}
 
