@@ -43,6 +43,7 @@ dev() {
     check_cmd air
     check_dir
     export_secrets
+    rm "./pkged.go"
     env DEBUG="true" \
         air
 }

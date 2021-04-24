@@ -45,7 +45,9 @@ func Initalize() {
 		app.Use(limiter.New(limiter.Config{Max: 150}))
 	}
 
-	app.Use("/", common.Index)
+	app.Get("/", common.Index)
+
+	app.Use(common.NotFound)
 
 	log.Fatal(app.Listen(config.PORT))
 }

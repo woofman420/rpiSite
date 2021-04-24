@@ -1,3 +1,7 @@
 # Have Public authentication enabled on SSHServer.
+# So it wont need to enter your SSH password.
 SSHServer=example@1.1.1.1
+
+# Password for `example` user.
+# Make sure this user has priveleges to disable an systemctl service.
 PASSWORD=passwordForUserExample
