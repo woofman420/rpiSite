@@ -9,6 +9,8 @@ check_cmd() {
         log "Missing $1!"
         case "$1" in
             air) log "Install it with 'go get -u github.com/cosmtrek/air'" ;;
+            sassc) log "Install 'sassc' with your package manager" ;;
+            inotify*) log "Install 'notify-tools' with your package manager" ;;
         esac
         return 1
     fi
@@ -25,10 +27,32 @@ export_secrets() {
     set +a
 }
 
+
+sass() {
+    log "sass"
+    check_cmd sassc
+    [ $? = 1 ] && exit
+    check_cmd inotifywait
+    [ $? = 1 ] && exit
+
+    check_dir
+    while inotifywait -r -e close_write scss; do
+        sassc --style compressed ./scss/main.scss ./static/main.css
+    done
+}
+
 prod() {
     log "prod"
+    check_cmd sassc
+    [ $? = 1 ] && exit
+    check_cmd inotifywait
+    [ $? = 1 ] && exit
     check_dir
     export_secrets
+
+    # Make sure a fresh copy of the scss
+    sassc --style compressed ./scss/main.scss ./static/main.css
+    # Include all static files within the executeable
     pkger
     GOOS=linux GOARCH=arm64 go build \
         -ldflags '-s -w -extldflags "-fno-PIC -static"' \
@@ -61,6 +85,7 @@ build() {
 case "$1" in
     build) build "$@" ;;
     prod)  prod  "$@" ;;
+    sass)  sass  "$@" ;;
     dev)   dev   "$@" ;;
     *) invalid   "$@" ;;
 esac

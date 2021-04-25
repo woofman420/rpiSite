@@ -1,0 +1,17 @@
+textarea {
+    border: thick double #32a1ce;
+    height: 620px;
+    width: 620px;
+    word-wrap: break-word;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.center-container {
+    height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}

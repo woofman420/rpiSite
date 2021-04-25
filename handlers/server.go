@@ -3,11 +3,14 @@ package handlers
 import (
 	"log"
 	"rpiSite/config"
+	"rpiSite/handlers/api"
 	"rpiSite/handlers/common"
 	"rpiSite/utils"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/template/html"
 	"github.com/markbates/pkger"
@@ -46,6 +49,16 @@ func Initalize() {
 	}
 
 	app.Get("/", common.Index)
+	app.Get("/callback_helper", api.CallbackGet)
+
+	if config.IS_DEBUG == "true" {
+		app.Static("/", "/static")
+	}
+
+	app.Use("/", filesystem.New(filesystem.Config{
+		MaxAge: int(time.Hour) * 2,
+		Root:   pkger.Dir("/static"),
+	}))
 
 	app.Use(common.NotFound)
 

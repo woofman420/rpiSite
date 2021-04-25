@@ -1,4 +1,5 @@
 pkged.go
 rpiSite
+static/
 .auth
 tmp/
