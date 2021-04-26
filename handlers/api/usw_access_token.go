@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"rpiSite/utils"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/ohler55/ojg/oj"
@@ -28,9 +27,15 @@ func CallbackHelperUSWPost(c *fiber.Ctx) error {
 			"Error": "Wrong inputs.",
 		})
 	}
-	refer = strings.TrimSuffix(refer, "/")
+	var referURL string
+	switch refer {
+	case "localhost":
+		referURL = "http://localhost:3000"
+	default:
+		referURL = "https://userstyles.world"
+	}
 
-	url := refer + "/oauth/access_token"
+	url := referURL + "/oauth/access_token"
 	url += "?client_id=" + clientID
 	url += "&client_secret=" + clientSecret
 	url += "&code=" + code

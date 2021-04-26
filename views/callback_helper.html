@@ -11,13 +11,16 @@
         {{ if .USw }}
         <form method="post" action="{{ $callback }}">
             <label for="clientID">Client ID</label>
-            <input required type="text" name="clientID">
+            <input required type="text" name="clientID" value="publicccc_client">
 
             <label for="clientSecret">Client Secret</label>
-            <input required type="text" name="clientSecret" >
+            <input required type="text" name="clientSecret" value="secreettUwU">
 
             <label for="refer">USW Server</label>
-            <input required type="text" name="refer" value="https://userstyles.world/">
+            <select name="refer">
+                <option value="localhost">http://localhost:8080/</option>
+                <option value="userstyles_world">https://userstyles.world/</option>
+              </select>
 
             <button type="submit">Get access_token</button>
         </form>
