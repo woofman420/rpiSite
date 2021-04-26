@@ -1,3 +1,4 @@
+{{- $callback := printf "/usw/access_token?%s" .Callback -}}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,5 +8,19 @@
         <div class="center-container">
             <textarea>{{- .Callback -}}</textarea>
         </div>
+        {{ if .USw }}
+        <form method="post" action="{{ $callback }}">
+            <label for="clientID">Client ID</label>
+            <input required type="text" name="clientID">
+
+            <label for="clientSecret">Client Secret</label>
+            <input required type="text" name="clientSecret" >
+
+            <label for="refer">USW Server</label>
+            <input required type="text" name="refer" value="https://userstyles.world/">
+
+            <button type="submit">Get access_token</button>
+        </form>
+        {{ end }}
     </body>
 </html>

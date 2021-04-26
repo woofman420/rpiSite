@@ -31,7 +31,7 @@ func proxyHeader() (s string) {
 }
 
 func JsonEncoder(v interface{}) ([]byte, error) {
-	return utils.S2b(oj.JSON(v, oj.Options{OmitNil: true})), nil
+	return utils.S2b(oj.JSON(v, oj.Options{OmitNil: true, HTMLUnsafe: false})), nil
 }
 
 func Initalize() {
@@ -49,7 +49,8 @@ func Initalize() {
 	}
 
 	app.Get("/", common.Index)
-	app.Get("/callback_helper", api.CallbackGet)
+	app.Get("/callback_helper/:type?", api.CallbackGet)
+	app.Post("/usw/access_token", api.CallbackHelperUSWPost)
 
 	if config.IS_DEBUG == "true" {
 		app.Static("/", "/static")
