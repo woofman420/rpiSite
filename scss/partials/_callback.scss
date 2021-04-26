@@ -1,5 +1,7 @@
 textarea {
-    border: thick double #32a1ce;
+    background-color: var(--secondary-background);
+    border: thick #32a1ce;
+    color: var(--secondary-color);
     height: 100%;
     max-height: 620px;
     width: 620px;
@@ -22,17 +24,22 @@ form {
     margin: 1rem auto;
     padding: 1rem;
     max-width: var(--form-max-width);
-    border: 1px solid var(--bg-4);
-    background-color: var(--bg-2);
-    border-radius: var(--br-3);
+    border: 1px solid var(--fourth-background);
+    background-color: var(--secondary-background);
+    border-radius: var(--third-radius);
 
-    label { display: flex }
+    label {
+        display: flex;
+    }
 
     input,
     textarea {
-        width: 100%;
+        background-color: var(--fourth-background);
+        color: var(--third-color);
         display: flex;
         margin: 0.5rem 0 1.5rem;
+        width: 100%;
+        border: none;
 
         // Invalid states.
         &:invalid {
@@ -47,36 +54,5 @@ form {
     > button {
         cursor: pointer;
         line-height: initial;
-    }
-
-    // TODO: Refactor.
-    &.search {
-        margin: -2px 0;
-        padding: 0;
-        min-width: 12rem;
-        max-width: 12rem;
-        position: relative;
-        border: none;
-        border-radius: 0;
-        background-color: transparent;
-        svg { stroke: var(--fg-3) }
-        input, button {
-            margin: 0;
-            padding: 0.25rem 0.5rem;
-            background-color: var(--bg-3);
-        }
-        button {
-            position: absolute;
-            top: 1px;
-            right: 1px;
-            bottom: 1px;
-            border: none;
-            &:focus {
-                top: 0px;
-                right: 0px;
-                bottom: 0px;
-                border: 1px solid var(--ac-3);
-            }
-        }
     }
 }

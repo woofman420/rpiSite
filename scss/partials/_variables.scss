@@ -1,3 +1,46 @@
 :root {
+
     --form-max-width: 840px;
+
+    --primary-radius: 1rem;
+    --secondary-radius: 0.66rem;
+    --third-radius: 0.33rem;
+
+}
+
+// Dark mode colors.
+$bg-dark:  rgb(40, 46, 51);
+$fg-dark:  rgb(253, 238, 245);
+$ac-dark:  #679CD0;
+$st-dark:  #27fffb;
+
+
+$mode: (
+    "primary-background": lighten($bg-dark, 0%),
+    "secondary-background": lighten($bg-dark, 5%),
+    "third-background": lighten($bg-dark, 10%),
+    "fourth-background": lighten($bg-dark, 15%),
+    "fifth-background": lighten($bg-dark, 20%),
+    "primary-color": darken($fg-dark,  0%),
+    "secondary-color": darken($fg-dark, 12%),
+    "third-color": darken($fg-dark, 24%),
+    "fourth-color": darken($fg-dark, 36%),
+    "fifth-color": darken($fg-dark, 48%),
+    "primary-accent": darken($ac-dark,  0%),
+    "secondary-accent": darken($ac-dark, 16%),
+    "third-accent": darken($ac-dark, 24%),
+    "fourth-accent": darken($ac-dark, 32%),
+    "fifth-accent": darken($ac-dark, 40%),
+    "primary-extra": darken($st-dark,  0%),
+    "secondary-extra": darken($st-dark, 20%),
+    "third-extra": darken($st-dark, 28%),
+    "fourth-extra": darken($st-dark, 36%),
+    "fifth-extra": darken($st-dark, 44%),
+    "background-transparent": transparentize($bg-dark, 0.3),
+);
+
+:root {
+    @each $key, $val in $mode {
+        --#{$key}: #{$val};
+    }
 }
