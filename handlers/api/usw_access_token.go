@@ -27,15 +27,13 @@ func CallbackHelperUSWPost(c *fiber.Ctx) error {
 			"Error": "Wrong inputs.",
 		})
 	}
-	var referURL string
-	switch refer {
-	case "localhost":
-		referURL = "http://localhost:3000"
-	default:
-		referURL = "https://userstyles.world"
+	referURL, err := utils.DecodeString(refer)
+	if err != nil {
+		return c.Render("err", fiber.Map{
+			"Error": "Couldn't decode",
+		})
 	}
-
-	url := referURL + "/oauth/access_token"
+	url := utils.B2s(referURL) + "/oauth/access_token"
 	url += "?client_id=" + clientID
 	url += "&client_secret=" + clientSecret
 	url += "&code=" + code
