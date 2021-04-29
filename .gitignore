@@ -1,4 +1,5 @@
 pkged.go
+.vscode/
 rpiSite
 static/
 .auth

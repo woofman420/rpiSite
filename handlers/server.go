@@ -5,6 +5,7 @@ import (
 	"rpiSite/config"
 	"rpiSite/handlers/api"
 	"rpiSite/handlers/common"
+	"rpiSite/handlers/monitor"
 	"rpiSite/utils"
 	"time"
 
@@ -41,6 +42,7 @@ func Initalize() {
 		ProxyHeader:           proxyHeader(),
 		Prefork:               true,
 		JSONEncoder:           JsonEncoder,
+		StrictRouting:         true,
 	})
 
 	app.Use(compress.New())
@@ -49,6 +51,7 @@ func Initalize() {
 	}
 
 	app.Get("/", common.Index)
+	app.Group("/monitor", monitor.ProxyMonitor)
 	app.Get("/callback_helper/:type?", api.CallbackGet)
 	app.Post("/usw/access_token", api.CallbackHelperUSWPost)
 
