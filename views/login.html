@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {{ template "partials/head" . }}
+    </head>
+    <body>
+        {{ template "partials/nav" . }}
+        <main>
+            <div class="wrapper py:l">
+                <section class="ta:c">
+                    <h1>Login</h1>
+                </section>
+
+                {{ template "partials/alert" . }}
+
+                <section class="login limit mx:a">
+                    <form class="form-wrapper" method="post" action="/login">
+                        <label for="email">E-mail</label>
+                        <input
+                            required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$"
+                            type="text" name="email"
+                            placeholder="Your e-mail">
+                        <label for="password">Password</label>
+                        <input
+                            required pattern="^[\S]{8,32}$"
+                            type="password" name="password"
+                            placeholder="Your password">
+                        <div class="ta:l">
+                            <label for="remember">Remember me</label>
+                            <input type="checkbox" name="remember">
+                        </div>
+                        <span class="flex" style="align-items: center">
+                             <button class="flex btn primary" type="submit">Sign in</button>
+                        </span>
+                    </form>
+                </section>
+            </div>
+        </main>
+
+        {{ template "partials/footer" . }}
+    </body>
+</html>
