@@ -54,7 +54,7 @@ prod() {
     sassc --style compressed ./scss/main.scss ./static/main.css
     # Include all static files within the executeable
     pkger
-    GOOS=linux GOARCH=arm64 go build \
+    CGO_ENABLED=1 GOOS=linux GOARCH=arm64 go build \
         -ldflags '-s -w -extldflags "-fno-PIC -static"' \
         -buildmode pie -tags 'osusergo netgo static_build'
     echo $PASSWORD | ssh $SSHServer 'sudo -S systemctl stop site.service'
@@ -89,7 +89,7 @@ build() {
     check_dir
     rm "./pkged.go"
     
-    GOOS=linux go build \
+    CGO_ENABLED=1 GOOS=linux go build \
         -ldflags '-s -w -extldflags "-fno-PIC -static"' \
         -buildmode pie -tags 'osusergo netgo static_build'
 }
