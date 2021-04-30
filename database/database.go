@@ -8,6 +8,7 @@ import (
 	"rpiSite/utils"
 	"time"
 
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -38,7 +39,9 @@ func Connect() {
 	}
 
 	DB = db
-	log.Println("Database successfully connected.")
+	if !fiber.IsChild() {
+		log.Println("Database successfully connected.")
+	}
 }
 
 func Migrate(tables ...interface{}) error {
@@ -49,14 +52,16 @@ func Migrate(tables ...interface{}) error {
 func Initialize() {
 	Connect()
 
-	// Generate data for development.
-	if dropTables() && config.IS_DEBUG == "true" {
-		log.Println("Dropping database tables.")
-		Drop(&user)
-		defer Seed()
-	}
+	if !fiber.IsChild() {
+		// Generate data for development.
+		if dropTables() && config.IS_DEBUG == "true" {
+			log.Println("Dropping database tables.")
+			Drop(&user)
+			defer Seed()
+		}
 
-	Migrate(&user)
+		Migrate(&user)
+	}
 }
 
 func Drop(dst ...interface{}) error {

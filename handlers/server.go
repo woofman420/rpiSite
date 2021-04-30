@@ -5,6 +5,7 @@ import (
 	"rpiSite/config"
 	"rpiSite/handlers/api"
 	"rpiSite/handlers/common"
+	"rpiSite/handlers/jwt"
 	"rpiSite/handlers/monitor"
 	"rpiSite/utils"
 	"time"
@@ -13,6 +14,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/html"
 	"github.com/markbates/pkger"
 	"github.com/ohler55/ojg/oj"
@@ -45,15 +47,25 @@ func Initalize() {
 		StrictRouting:         true,
 	})
 
+	if config.IS_DEBUG == "true" {
+		app.Use(logger.New())
+	}
+
 	app.Use(compress.New())
 	if config.IS_DEBUG == "false" {
 		app.Use(limiter.New(limiter.Config{Max: 150}))
 	}
 
+	app.Use(jwt.New())
+
 	app.Get("/", common.Index)
 	app.Group("/monitor", monitor.ProxyMonitor)
 	app.Get("/callback_helper/:type?", api.CallbackGet)
 	app.Post("/usw/access_token", api.CallbackHelperUSWPost)
+	app.Get("/register", common.RegisterGet)
+	app.Post("/register", common.RegisterPost)
+	app.Get("/login", common.LoginGet)
+	app.Post("/login", common.LoginPost)
 
 	if config.IS_DEBUG == "true" {
 		app.Static("/", "/static")

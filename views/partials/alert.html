@@ -1,0 +1,20 @@
+{{ if or .Error .Errors }}
+    <section class="err limit">
+        {{ if .Error }}
+            <p>{{ .Error }}</p>
+        {{ end }}
+
+        {{ if .Errors }}
+            <p>Validation failed!</p>
+            <ul>
+                {{ range .Errors }}
+                    {{ if .Code }}
+                        <li>{{ .Code }}</li>
+                    {{ else }}
+                        <li>{{ . }}</li>
+                    {{ end }}
+                {{ end }}
+            </ul>
+        {{ end }}
+    </section>
+{{ end }}

@@ -69,6 +69,18 @@ dev() {
     export_secrets
     rm "./pkged.go"
     env DEBUG="true" \
+        DB_DEBUG="${2:-silent}" \
+        DB_DROP="${3:-false}" \
+        DB_COLOR="true" \
+        air
+}
+
+drop() {
+    log "drop"
+    check_cmd air
+    env DB_DROP="true" \
+        DB_COLOR="true" \
+        DB_DEBUG="${2:-silent}" \
         air
 }
 

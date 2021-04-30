@@ -3,4 +3,5 @@ pkged.go
 rpiSite
 static/
 .auth
+*.db
 tmp/

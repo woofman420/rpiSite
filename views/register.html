@@ -4,7 +4,6 @@
         {{ template "partials/head" . }}
     </head>
     <body>
-        {{ template "partials/nav" . }}
         <main>
             <div class="wrapper py:l">
                 <section class="ta:c">
@@ -25,6 +24,11 @@
                             required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$"
                             type="text" name="email"
                             placeholder="e.g. username@example.org">
+                        <label for="secretcode">Secret Code</label>
+                        <input
+                            required
+                            type="password" name="secretcode"
+                            placeholder="The Secret Code">
                         <label for="password">Password</label>
                         <input
                             required pattern="^[\S]{8,32}$"

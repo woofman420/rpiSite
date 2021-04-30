@@ -13,6 +13,7 @@ var (
 
 	JWT_SIGNING_KEY = getEnv("JWT_SIGNING_KEY", "ABigSecretPassword")
 	SALT            = getEnv("SALT", "10")
+	SECRET_CODE     = getEnv("SECRET_CODE", "scawry")
 )
 
 func getEnv(value, backupValue string) string {
