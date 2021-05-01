@@ -12,8 +12,8 @@ import (
 )
 
 func LoginGet(c *fiber.Ctx) error {
-	if _, ok := c.Locals("user").(*jwt.Token); !ok {
-		return c.Redirect("/index", fiber.StatusSeeOther)
+	if _, ok := c.Locals("user").(*jwt.Token); ok {
+		return c.Redirect("/", fiber.StatusSeeOther)
 	}
 
 	return c.Render("login", fiber.Map{
@@ -63,5 +63,5 @@ func LoginPost(c *fiber.Ctx) error {
 		SameSite: "strict",
 	})
 
-	return c.Redirect("/index", fiber.StatusSeeOther)
+	return c.Redirect("/", fiber.StatusSeeOther)
 }

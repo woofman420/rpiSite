@@ -14,14 +14,14 @@
 
                 <section class="login limit mx:a">
                     <form class="form-wrapper" method="post" action="/login">
-                        <label for="email">E-mail</label>
+                        <label for="username">Username</label>
                         <input
-                            required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$"
-                            type="text" name="email"
-                            placeholder="Your e-mail">
+                            required pattern="^[a-zA-Z0-9_]{5,50}$"
+                            type="text" name="username"
+                            placeholder="Your username">
                         <label for="password">Password</label>
                         <input
-                            required pattern="^[\S]{8,32}$"
+                            required pattern="^[\S]{0,50}$"
                             type="password" name="password"
                             placeholder="Your password">
                         <div class="ta:l">

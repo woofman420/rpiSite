@@ -44,29 +44,29 @@ func Initalize() {
 		ProxyHeader:           proxyHeader(),
 		Prefork:               true,
 		JSONEncoder:           JsonEncoder,
-		StrictRouting:         true,
 	})
 
 	if config.IS_DEBUG == "true" {
 		app.Use(logger.New())
 	}
-
 	app.Use(compress.New())
 	if config.IS_DEBUG == "false" {
 		app.Use(limiter.New(limiter.Config{Max: 150}))
 	}
-
 	app.Use(jwt.New())
 
 	app.Get("/", common.Index)
 	app.Group("/monitor", jwt.Protected, monitor.ProxyMonitor)
+
 	app.Get("/callback_helper/:type?", api.CallbackGet)
 	app.Post("/usw/access_token", api.CallbackHelperUSWPost)
+
+	app.Get("/login", common.LoginGet)
+	app.Post("/login", common.LoginPost)
 
 	if config.IS_DEBUG == "true" {
 		app.Static("/", "/static")
 	}
-
 	app.Use("/", filesystem.New(filesystem.Config{
 		MaxAge: int(time.Hour) * 2,
 		Root:   pkger.Dir("/static"),
