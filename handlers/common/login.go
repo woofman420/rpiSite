@@ -1,21 +1,19 @@
 package common
 
 import (
+	"crypto/subtle"
 	"log"
 	"rpiSite/config"
-	"rpiSite/database"
-	"rpiSite/handlers/jwt"
-	"rpiSite/models"
 	"rpiSite/utils"
 	"time"
 
+	"github.com/form3tech-oss/jwt-go"
 	"github.com/gofiber/fiber/v2"
 )
 
 func LoginGet(c *fiber.Ctx) error {
-	if u, ok := jwt.User(c); ok {
-		log.Printf("User %d has set session, redirecting.", u.ID)
-		return c.Redirect("/account", fiber.StatusSeeOther)
+	if _, ok := c.Locals("user").(*jwt.Token); !ok {
+		return c.Redirect("/index", fiber.StatusSeeOther)
 	}
 
 	return c.Render("login", fiber.Map{
@@ -24,26 +22,12 @@ func LoginGet(c *fiber.Ctx) error {
 }
 
 func LoginPost(c *fiber.Ctx) error {
-	form := models.User{
-		Email:    c.FormValue("email"),
-		Password: c.FormValue("password"),
-	}
+	username, pwd := c.FormValue("username"), c.FormValue("password")
 	remember := c.FormValue("remember") == "on"
 
-	user, err := models.FindUserByEmail(database.DB, form.Email)
-	if err != nil {
-		log.Printf("Failed to find %s, error: %s", form.Email, err)
-
-		c.SendStatus(fiber.StatusUnauthorized)
-		return c.Render("login", fiber.Map{
-			"Title": "Login failed",
-			"Error": "Invalid credentials.",
-		})
-	}
-
-	match := utils.CompareHashedPassword(user.Password, form.Password)
-	if match != nil {
-		log.Printf("Failed to match hash for user: %#+v\n", user.Email)
+	if subtle.ConstantTimeCompare(utils.S2b(username), utils.S2b(config.ADMIN_USER)) != 1 ||
+		subtle.ConstantTimeCompare(utils.S2b(pwd), utils.S2b(config.ADMIN_PWD)) != 1 {
+		log.Printf("Failed to match hash for user: %#+v\n", username)
 
 		c.SendStatus(fiber.StatusInternalServerError)
 		return c.Render("login", fiber.Map{
@@ -58,10 +42,7 @@ func LoginPost(c *fiber.Ctx) error {
 		expiration = time.Now().Add(time.Hour * 24 * 14)
 	}
 	t, err := utils.NewJWTToken().
-		SetClaim("id", user.ID).
-		SetClaim("name", user.Username).
-		SetClaim("email", user.Email).
-		SetClaim("role", user.Role).
+		SetClaim("name", username).
 		SetExpiration(expiration).
 		GetSignedString(nil)
 
@@ -82,5 +63,5 @@ func LoginPost(c *fiber.Ctx) error {
 		SameSite: "strict",
 	})
 
-	return c.Redirect("/account", fiber.StatusSeeOther)
+	return c.Redirect("/index", fiber.StatusSeeOther)
 }

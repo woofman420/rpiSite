@@ -6,13 +6,10 @@ var (
 	IS_DEBUG = getEnv("DEBUG", "false")
 	PORT     = getEnv("PORT", ":8080")
 
-	DB       = getEnv("DB", "dev.db")
-	DB_DEBUG = getEnv("DB_DEBUG", "false")
-	DB_COLOR = getEnv("DB_COLOR", "false")
-	DB_DROP  = getEnv("DB_DROP", "false")
+	ADMIN_USER = getEnv("ADMIN_USER", "admin")
+	ADMIN_PWD  = getEnv("ADMIN_PWD", "admin")
 
 	JWT_SIGNING_KEY = getEnv("JWT_SIGNING_KEY", "ABigSecretPassword")
-	SALT            = getEnv("SALT", "10")
 	SECRET_CODE     = getEnv("SECRET_CODE", "scawry")
 )
 

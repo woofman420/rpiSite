@@ -59,13 +59,9 @@ func Initalize() {
 	app.Use(jwt.New())
 
 	app.Get("/", common.Index)
-	app.Group("/monitor", monitor.ProxyMonitor)
+	app.Group("/monitor", jwt.Protected, monitor.ProxyMonitor)
 	app.Get("/callback_helper/:type?", api.CallbackGet)
 	app.Post("/usw/access_token", api.CallbackHelperUSWPost)
-	app.Get("/register", common.RegisterGet)
-	app.Post("/register", common.RegisterPost)
-	app.Get("/login", common.LoginGet)
-	app.Post("/login", common.LoginPost)
 
 	if config.IS_DEBUG == "true" {
 		app.Static("/", "/static")
