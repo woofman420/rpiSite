@@ -54,9 +54,11 @@ prod() {
     sassc --style compressed ./scss/main.scss ./static/main.css
     # Include all static files within the executeable
     pkger
-    CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build \
-        -ldflags '-s -w -extldflags "-fno-PIC -static"' \
-        -buildmode pie -tags 'osusergo netgo static_build'
+    # As we enable CGO we need to have a compile to was compiled for cross-compiling.
+    # This specified CC is design to cross-compile against the RPI4 specs.
+    CGO_ENABLED=1 CC="/home/gusted/x-tools/aarch64-rpi4-linux-gnu/bin/aarch64-rpi4-linux-gnu-gcc" GOOS=linux GOARCH=arm64 go build \
+        -ldflags '-s -w -extldflags "-fno-PIC"' \
+        -buildmode pie -tags 'osusergo netgo'
     echo $PASSWORD | ssh $SSHServer 'sudo -S systemctl stop site.service'
     scp ./rpiSite $SSHServer:/home/gusted/site
     echo $PASSWORD | ssh $SSHServer 'sudo -S systemctl start site.service'
@@ -89,7 +91,7 @@ build() {
     check_dir
     rm "./pkged.go"
     
-    CGO_ENABLED=0 GOOS=linux go build \
+    CGO_ENABLED=1 GOOS=linux go build \
         -ldflags '-s -w -extldflags "-fno-PIC -static"' \
         -buildmode pie -tags 'osusergo netgo static_build'
 }
