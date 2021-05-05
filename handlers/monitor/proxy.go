@@ -1,6 +1,8 @@
 package monitor
 
 import (
+	"rpiSite/handlers/jwt"
+	"rpiSite/models"
 	"rpiSite/utils"
 
 	"github.com/gofiber/fiber/v2"
@@ -32,6 +34,12 @@ func createAdress(c *fiber.Ctx) string {
 }
 
 func ProxyMonitor(c *fiber.Ctx) error {
+	u, ok := jwt.User(c)
+	if !ok || u.Role != models.Admin {
+		return c.Status(fiber.StatusUnauthorized).
+			SendString("Not authorized!")
+	}
+
 	if c.Path() == "/monitor" {
 		return c.Redirect("/monitor/", 301)
 	}

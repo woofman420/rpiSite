@@ -49,6 +49,7 @@ func Initalize() {
 	if config.IS_DEBUG == "true" {
 		app.Use(logger.New())
 	}
+
 	app.Use(compress.New())
 	if config.IS_DEBUG == "false" {
 		app.Use(limiter.New(limiter.Config{Max: 150}))
@@ -60,6 +61,10 @@ func Initalize() {
 
 	app.Get("/callback_helper/:type?", api.CallbackGet)
 	app.Post("/usw/access_token", api.CallbackHelperUSWPost)
+	app.Get("/register", common.RegisterGet)
+	app.Post("/register", common.RegisterPost)
+	app.Get("/login", common.LoginGet)
+	app.Post("/login", common.LoginPost)
 
 	app.Get("/login", common.LoginGet)
 	app.Post("/login", common.LoginPost)
