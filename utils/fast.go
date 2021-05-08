@@ -9,13 +9,14 @@ import (
 // This file is pure for functions.
 // That mimick originial behaviour, just faster.
 
-func B2s(msg []byte) string {
+// UnsafeStringConversion is a quick dirty way to avoid allocations from byte to string.
+func UnsafeStringConversion(msg []byte) string {
 	return *(*string)(unsafe.Pointer(&msg))
 }
 
-// Note it may break if string and/or slice header will change
+// UnsafeByteConversion will may break if string and/or slice header will change
 // in the future go versions.
-func S2b(str string) []byte {
+func UnsafeByteConversion(str string) []byte {
 	var b []byte
 	byteHeader := (*reflect.SliceHeader)(unsafe.Pointer(&b))
 	byteHeader.Data = (*reflect.StringHeader)(unsafe.Pointer(&str)).Data
@@ -29,14 +30,16 @@ func S2b(str string) []byte {
 	return b
 }
 
+// EncodeToString will Base64(URL Variant) encode the given []byte.
 func EncodeToString(src []byte) string {
 	buf := make([]byte, (len(src)*8+5)/6)
 	base64.RawURLEncoding.Encode(buf, src)
-	return B2s(buf)
+	return UnsafeStringConversion(buf)
 }
 
+// DecodeString will Base64(URL Variant) decode the given string.
 func DecodeString(s string) ([]byte, error) {
 	dbuf := make([]byte, len(s)*6/8)
-	n, err := base64.RawURLEncoding.Decode(dbuf, S2b(s))
+	n, err := base64.RawURLEncoding.Decode(dbuf, UnsafeByteConversion(s))
 	return dbuf[:n], err
 }

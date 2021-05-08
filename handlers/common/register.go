@@ -12,6 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// RegisterGet is our handler for `GET /register`
 func RegisterGet(c *fiber.Ctx) error {
 	if u, ok := jwt.User(c); ok {
 		log.Printf("User %d has set session, redirecting.", u.ID)
@@ -23,10 +24,12 @@ func RegisterGet(c *fiber.Ctx) error {
 	})
 }
 
+// RegisterPost is our handler for `POST /register`
 func RegisterPost(c *fiber.Ctx) error {
 	secretCode := c.FormValue("secret_code")
 
-	if subtle.ConstantTimeCompare(utils.S2b(secretCode), utils.S2b(config.SECRET_CODE)) != 1 {
+	if subtle.ConstantTimeCompare(utils.UnsafeByteConversion(secretCode),
+		utils.UnsafeByteConversion(config.SecretCode)) != 1 {
 		c.Render("err", fiber.Map{
 			"Error": "Woopsie wrong secret code",
 		})

@@ -13,11 +13,15 @@ import (
 type Role int
 
 const (
+	// Regular role.
 	Regular Role = iota
+	// Moderator role.
 	Moderator
+	// Admin role.
 	Admin
 )
 
+// User struct that's stored in the database.
 type User struct {
 	gorm.Model `json:"-"`
 	Username   string `gorm:"unique;not null" validate:"required,username,min=5,max=20"`
@@ -26,6 +30,7 @@ type User struct {
 	Role       Role   `gorm:"default=0"`
 }
 
+// APIUser without the database model.
 type APIUser struct {
 	Username string
 	Email    string
@@ -34,7 +39,7 @@ type APIUser struct {
 }
 
 func getDBSession(db *gorm.DB) (tx *gorm.DB) {
-	if config.DB_DEBUG == "info" {
+	if config.DBDebug == "info" {
 		return db.Session(&gorm.Session{
 			Logger: db.Logger.LogMode(logger.Info),
 		})
@@ -44,6 +49,7 @@ func getDBSession(db *gorm.DB) (tx *gorm.DB) {
 	})
 }
 
+// FindUserByEmail will find the user based of the email within the given database.
 func FindUserByEmail(db *gorm.DB, email string) (*User, error) {
 	user := new(User)
 
@@ -58,6 +64,7 @@ func FindUserByEmail(db *gorm.DB, email string) (*User, error) {
 	return user, nil
 }
 
+// FindUserByName will find the user based of the username within the given database.
 func FindUserByName(db *gorm.DB, name string) (*User, error) {
 	user := new(User)
 

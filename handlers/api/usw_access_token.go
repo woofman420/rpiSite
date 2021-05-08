@@ -10,17 +10,19 @@ import (
 	"github.com/ohler55/ojg/oj"
 )
 
+//AccessToken in a struct that's returned from USw.
 type AccessToken struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
 }
 
-var JSONParser = oj.Parser{
-	Reuse: true,
-}
+// JSONParser is our parser for JSON.
+var JSONParser = oj.Parser{Reuse: true}
 
+// CallbackHelperUSWPost is the handler for `/usw/access_token`
 func CallbackHelperUSWPost(c *fiber.Ctx) error {
-	refer, code, state, clientID, clientSecret := c.FormValue("refer"), c.Query("code"), c.Query("state"), c.FormValue("clientID"), c.FormValue("clientSecret")
+	refer, code, state, clientID, clientSecret :=
+		c.FormValue("refer"), c.Query("code"), c.Query("state"), c.FormValue("clientID"), c.FormValue("clientSecret")
 
 	if refer == "" || code == "" || clientID == "" || clientSecret == "" {
 		return c.Render("err", fiber.Map{
@@ -33,7 +35,7 @@ func CallbackHelperUSWPost(c *fiber.Ctx) error {
 			"Error": "Couldn't decode",
 		})
 	}
-	url := utils.B2s(referURL) + "/oauth/access_token"
+	url := utils.UnsafeStringConversion(referURL) + "/oauth/access_token"
 	url += "?client_id=" + clientID
 	url += "&client_secret=" + clientSecret
 	url += "&code=" + code
@@ -60,7 +62,7 @@ func CallbackHelperUSWPost(c *fiber.Ctx) error {
 	}
 
 	if req.StatusCode != 200 {
-		log.Println(req.StatusCode, utils.B2s(body))
+		log.Println(req.StatusCode, utils.UnsafeStringConversion(body))
 		return c.Render("err", fiber.Map{
 			"Error": "Didn't return 200 code",
 		})

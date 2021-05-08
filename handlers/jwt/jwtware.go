@@ -10,19 +10,23 @@ import (
 )
 
 var (
-	signingKey    = []byte(config.JWT_SIGNING_KEY)
+	signingKey    = []byte(config.JWTSigningKey)
 	signingMethod = "HS512"
 )
 
-func KeyFuncion(t *jwt.Token) (interface{}, error) {
+func keyFuncion(t *jwt.Token) (interface{}, error) {
 	if t.Method.Alg() != signingMethod {
 		return nil, fmt.Errorf("unexpected jwt signing method=%v", t.Header["alg"])
 	}
 	return signingKey, nil
 }
 
+// New function to create a new JWT middleware.
 func New() fiber.Handler {
-	extractors := []func(c *fiber.Ctx) (string, bool){jwtFromCookie(fiber.HeaderAuthorization), jwtFromHeader(fiber.HeaderAuthorization)}
+	extractors := []func(c *fiber.Ctx) (string, bool){
+		jwtFromCookie(fiber.HeaderAuthorization),
+		jwtFromHeader(fiber.HeaderAuthorization),
+	}
 
 	return func(c *fiber.Ctx) error {
 		var auth string
@@ -39,7 +43,7 @@ func New() fiber.Handler {
 			return c.Next()
 		}
 
-		token, err := jwt.Parse(auth, KeyFuncion)
+		token, err := jwt.Parse(auth, keyFuncion)
 
 		if err == nil && token.Valid {
 			// Store user information from token into context.

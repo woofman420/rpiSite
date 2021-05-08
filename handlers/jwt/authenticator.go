@@ -3,10 +3,11 @@ package jwt
 import (
 	"rpiSite/models"
 
-	jwt "github.com/form3tech-oss/jwt-go"
+	JWTParser "github.com/form3tech-oss/jwt-go"
 	"github.com/gofiber/fiber/v2"
 )
 
+// Protected is the function to make sure the user is logged in.
 var Protected = func(c *fiber.Ctx) error {
 	if _, ok := User(c); !ok {
 		c.Status(fiber.StatusUnauthorized)
@@ -18,18 +19,19 @@ var Protected = func(c *fiber.Ctx) error {
 	return c.Next()
 }
 
-func MapClaim(c *fiber.Ctx) jwt.MapClaims {
-	user, ok := c.Locals("user").(*jwt.Token)
+func mapClaim(c *fiber.Ctx) JWTParser.MapClaims {
+	user, ok := c.Locals("user").(*JWTParser.Token)
 	if !ok {
 		return nil
 	}
-	claims := user.Claims.(jwt.MapClaims)
+	claims := user.Claims.(JWTParser.MapClaims)
 
 	return claims
 }
 
+// User function returns APIUser when a valid user is logged in otherwise empty.
 func User(c *fiber.Ctx) (*models.APIUser, bool) {
-	s := MapClaim(c)
+	s := mapClaim(c)
 	u := &models.APIUser{}
 
 	if s == nil {

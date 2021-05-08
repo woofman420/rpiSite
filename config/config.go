@@ -3,17 +3,26 @@ package config
 import "os"
 
 var (
-	IS_DEBUG = getEnv("DEBUG", "false")
-	PORT     = getEnv("PORT", ":8080")
+	// IsDebug checks if current runtime is debug env.
+	IsDebug = getEnv("DEBUG", "false")
+	// Port which the server is listening
+	Port = getEnv("PORT", ":8080")
 
-	DB       = getEnv("DB", "dev.db")
-	DB_DEBUG = getEnv("DB_DEBUG", "false")
-	DB_COLOR = getEnv("DB_COLOR", "false")
-	DB_DROP  = getEnv("DB_DROP", "false")
+	// DB file name
+	DB = getEnv("DB", "dev.db")
+	// DBDebug to check if Debug mode should be enabled.
+	DBDebug = getEnv("DB_DEBUG", "false")
+	// DBColor to check if it should color the output.
+	DBColor = getEnv("DB_COLOR", "false")
+	// DBDrop to seed more data.
+	DBDrop = getEnv("DB_DROP", "false")
 
-	JWT_SIGNING_KEY = getEnv("JWT_SIGNING_KEY", "ABigSecretPassword")
-	SALT            = getEnv("SALT", "10")
-	SECRET_CODE     = getEnv("SECRET_CODE", "scawry")
+	// JWTSigningKey is the key that JWT is signing with.
+	JWTSigningKey = getEnv("JWT_SIGNING_KEY", "ABigSecretPassword")
+	// Salt length
+	Salt = getEnv("SALT", "10")
+	// SecretCode to register a new account.
+	SecretCode = getEnv("SECRET_CODE", "scawry")
 )
 
 func getEnv(value, backupValue string) string {

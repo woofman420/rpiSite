@@ -15,11 +15,13 @@ import (
 )
 
 var (
+	// DB is the main database variable.
 	DB   *gorm.DB
 	user models.User
 )
 
-func Connect() {
+// connect to the database.
+func connect() {
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags),
 		logger.Config{
@@ -44,31 +46,35 @@ func Connect() {
 	}
 }
 
-func Migrate(tables ...interface{}) error {
+// migrate the given tables.
+func migrate(tables ...interface{}) error {
 	log.Println("Migrating database tables.")
 	return DB.AutoMigrate(tables...)
 }
 
+// Initialize the database.
 func Initialize() {
-	Connect()
+	connect()
 
 	if !fiber.IsChild() {
 		// Generate data for development.
-		if dropTables() && config.IS_DEBUG == "true" {
+		if dropTables() && config.IsDebug == "true" {
 			log.Println("Dropping database tables.")
-			Drop(&user)
-			defer Seed()
+			drop(&user)
+			defer seed()
 		}
 
-		Migrate(&user)
+		migrate(&user)
 	}
 }
 
-func Drop(dst ...interface{}) error {
+// drop given tables.
+func drop(dst ...interface{}) error {
 	return DB.Migrator().DropTable(dst...)
 }
 
-func Seed() {
+// seed the database with data.
+func seed() {
 	users := []models.User{
 		{
 			Username: "gusted",

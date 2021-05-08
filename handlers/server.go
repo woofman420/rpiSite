@@ -26,32 +26,34 @@ func renderEngine() *html.Engine {
 }
 
 func proxyHeader() (s string) {
-	if config.IS_DEBUG != "true" {
+	if config.IsDebug != "true" {
 		s = "X-Real-IP"
 	}
 
 	return s
 }
 
+// JSONEncoder is a simple wrapper for a fast JSON ENcoder.
 func JSONEncoder(v interface{}) ([]byte, error) {
-	return utils.S2b(oj.JSON(v, oj.Options{OmitNil: true, HTMLUnsafe: false})), nil
+	return utils.UnsafeByteConversion(oj.JSON(v, oj.Options{OmitNil: true, HTMLUnsafe: false})), nil
 }
 
+// Initalize the server code and listen for it.
 func Initalize() {
 	app := fiber.New(fiber.Config{
-		DisableStartupMessage: config.IS_DEBUG == "false",
+		DisableStartupMessage: config.IsDebug == "false",
 		Views:                 renderEngine(),
 		ProxyHeader:           proxyHeader(),
 		Prefork:               true,
 		JSONEncoder:           JSONEncoder,
 	})
 
-	if config.IS_DEBUG == "true" {
+	if config.IsDebug == "true" {
 		app.Use(logger.New())
 	}
 
 	app.Use(compress.New())
-	if config.IS_DEBUG == "false" {
+	if config.IsDebug == "false" {
 		app.Use(limiter.New(limiter.Config{Max: 150}))
 	}
 	app.Use(jwt.New())
@@ -66,10 +68,7 @@ func Initalize() {
 	app.Get("/login", common.LoginGet)
 	app.Post("/login", common.LoginPost)
 
-	app.Get("/login", common.LoginGet)
-	app.Post("/login", common.LoginPost)
-
-	if config.IS_DEBUG == "true" {
+	if config.IsDebug == "true" {
 		app.Static("/", "/static")
 	}
 	app.Use("/", filesystem.New(filesystem.Config{
@@ -79,5 +78,5 @@ func Initalize() {
 
 	app.Use(common.NotFound)
 
-	log.Fatal(app.Listen(config.PORT))
+	log.Fatal(app.Listen(config.Port))
 }

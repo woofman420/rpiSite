@@ -7,7 +7,7 @@ import (
 )
 
 func logLevel() logger.LogLevel {
-	switch config.DB_DEBUG {
+	switch config.DBDebug {
 	case "error":
 		return logger.Error
 	case "warn":
@@ -20,7 +20,7 @@ func logLevel() logger.LogLevel {
 }
 
 func colorful() bool {
-	switch config.DB_COLOR {
+	switch config.DBColor {
 	case "true", "yes", "1":
 		return true
 	default:
@@ -29,7 +29,7 @@ func colorful() bool {
 }
 
 func dropTables() bool {
-	switch config.DB_DROP {
+	switch config.DBDrop {
 	case "true", "yes", "1":
 		return true
 	default:

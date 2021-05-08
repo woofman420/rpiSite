@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// CallbackGet is the handler for `GET /callback_helper/:type?`
 func CallbackGet(c *fiber.Ctx) error {
 	typeCallback := c.Params("type")
 

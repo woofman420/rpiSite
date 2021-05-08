@@ -11,7 +11,7 @@ import (
 var salt = getSalt()
 
 func getSalt() int {
-	salt, err := strconv.Atoi(config.SALT)
+	salt, err := strconv.Atoi(config.Salt)
 	if err != nil {
 		log.Fatalln("Failed to convert SALT env variable, err:", err)
 	}
@@ -19,20 +19,17 @@ func getSalt() int {
 	return salt
 }
 
-func GenerateHashedPassword(pw string) string {
-	hash, err := bcrypt.GenerateFromPassword([]byte(pw), salt)
+// GenerateHashedPassword Generate a bcrypt salted password.
+func GenerateHashedPassword(pwd string) string {
+	hash, err := bcrypt.GenerateFromPassword(UnsafeByteConversion(pwd), salt)
 	if err != nil {
-		log.Println(err)
+		return ""
 	}
 
-	return string(hash)
+	return UnsafeStringConversion(hash)
 }
 
-func CompareHashedPassword(user, form string) error {
-	err := bcrypt.CompareHashAndPassword([]byte(user), []byte(form))
-	if err != nil {
-		return err
-	}
-
-	return nil
+// CompareHashedPassword will compare if the given password matches with the hashed password.
+func CompareHashedPassword(user, form string) bool {
+	return bcrypt.CompareHashAndPassword(UnsafeByteConversion(user), UnsafeByteConversion(form)) != nil
 }

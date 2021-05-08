@@ -16,7 +16,7 @@ var client = fasthttp.Client{
 	DisablePathNormalizing:   true,
 }
 
-func createAdress(c *fiber.Ctx) string {
+func createAdrress(c *fiber.Ctx) string {
 	address := addr
 
 	path := c.Path()[8:]
@@ -29,10 +29,13 @@ func createAdress(c *fiber.Ctx) string {
 	if len(queryBytes) == 0 {
 		return address
 	}
-	address += "?" + utils.B2s(queryBytes)
+	address += "?" + utils.UnsafeStringConversion(queryBytes)
 	return address
 }
 
+// ProxyMonitor is the handler for `/monitor`
+// It does the hardwork of reverse-proxing the local
+// netdata installation.
 func ProxyMonitor(c *fiber.Ctx) error {
 	u, ok := jwt.User(c)
 	if !ok || u.Role != models.Admin {
@@ -45,9 +48,9 @@ func ProxyMonitor(c *fiber.Ctx) error {
 	}
 	req := c.Request()
 	res := c.Response()
-	req.SetRequestURI(createAdress(c))
+	req.SetRequestURI(createAdrress(c))
 
-	host := utils.B2s(c.Context().Host())
+	host := utils.UnsafeStringConversion(c.Context().Host())
 	req.Header.Add("X-Forwarded-Host", host)
 	req.Header.Add("X-Forwarded-Server", host)
 	req.Header.Add("X-Forwarded-for", c.IP())

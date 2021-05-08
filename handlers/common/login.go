@@ -12,6 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// LoginGet is our handler for `GET /login`
 func LoginGet(c *fiber.Ctx) error {
 	if u, ok := jwt.User(c); ok {
 		log.Printf("User %d has set session, redirecting.", u.ID)
@@ -23,6 +24,7 @@ func LoginGet(c *fiber.Ctx) error {
 	})
 }
 
+// LoginPost is our handler for `GET /post`
 func LoginPost(c *fiber.Ctx) error {
 	form := models.User{
 		Email:    c.FormValue("email"),
@@ -41,8 +43,7 @@ func LoginPost(c *fiber.Ctx) error {
 		})
 	}
 
-	match := utils.CompareHashedPassword(user.Password, form.Password)
-	if match != nil {
+	if !utils.CompareHashedPassword(user.Password, form.Password) {
 		log.Printf("Failed to match hash for user: %#+v\n", user.Email)
 
 		c.SendStatus(fiber.StatusInternalServerError)
@@ -77,7 +78,7 @@ func LoginPost(c *fiber.Ctx) error {
 		Value:    t,
 		Path:     "/",
 		Expires:  expiration,
-		Secure:   config.IS_DEBUG == "false",
+		Secure:   config.IsDebug == "false",
 		HTTPOnly: true,
 		SameSite: "strict",
 	})
