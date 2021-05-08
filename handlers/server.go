@@ -33,7 +33,7 @@ func proxyHeader() (s string) {
 	return s
 }
 
-func JsonEncoder(v interface{}) ([]byte, error) {
+func JSONEncoder(v interface{}) ([]byte, error) {
 	return utils.S2b(oj.JSON(v, oj.Options{OmitNil: true, HTMLUnsafe: false})), nil
 }
 
@@ -43,7 +43,7 @@ func Initalize() {
 		Views:                 renderEngine(),
 		ProxyHeader:           proxyHeader(),
 		Prefork:               true,
-		JSONEncoder:           JsonEncoder,
+		JSONEncoder:           JSONEncoder,
 	})
 
 	if config.IS_DEBUG == "true" {

@@ -8,6 +8,8 @@ import (
 	"gorm.io/gorm/logger"
 )
 
+// Role is an alias for int and is equivalent to int in all ways. It is
+// used to represent a specifc role.
 type Role int
 
 const (
@@ -36,11 +38,10 @@ func getDBSession(db *gorm.DB) (tx *gorm.DB) {
 		return db.Session(&gorm.Session{
 			Logger: db.Logger.LogMode(logger.Info),
 		})
-	} else {
-		return db.Session(&gorm.Session{
-			Logger: db.Logger.LogMode(logger.Silent),
-		})
 	}
+	return db.Session(&gorm.Session{
+		Logger: db.Logger.LogMode(logger.Silent),
+	})
 }
 
 func FindUserByEmail(db *gorm.DB, email string) (*User, error) {

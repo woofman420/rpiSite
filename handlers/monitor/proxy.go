@@ -51,8 +51,6 @@ func ProxyMonitor(c *fiber.Ctx) error {
 	req.Header.Add("X-Forwarded-Host", host)
 	req.Header.Add("X-Forwarded-Server", host)
 	req.Header.Add("X-Forwarded-for", c.IP())
-	if err := client.Do(req, res); err != nil {
-		return err
-	}
-	return nil
+
+	return client.Do(req, res)
 }
