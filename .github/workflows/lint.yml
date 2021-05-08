@@ -1,0 +1,45 @@
+name: Lint
+on:
+  pull_request:
+  push:
+    paths:
+      - '**.go'
+      - 'revive.toml'
+      - '.github/workflows/lint.yaml'
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.16'
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+
+    - name: Run Revive Action
+      uses: morphy2k/revive-action@v2
+      with:
+        config: revive.toml
+
+    - uses: actions/cache@v2
+      with:
+        # In order:
+        # * Module download cache
+        # * Build cache (Linux)
+        path: |
+          ~/go/pkg/mod
+          ~/.cache/go-build
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+
+    - name: Download gofumpt
+      run: GO111MODULE=on go get mvdan.cc/gofumpt
+
+    - name: Check formatting
+      run: test -z $(gofumpt -s -l .) || (gofumpt -s -l . && exit 1)

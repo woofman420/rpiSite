@@ -72,7 +72,6 @@ func FindUserByName(db *gorm.DB, name string) (*User, error) {
 		Where("username = ?", name).
 		First(&user).
 		Error
-
 	if err != nil {
 		return nil, err
 	}

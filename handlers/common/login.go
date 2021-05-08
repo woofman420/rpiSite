@@ -65,7 +65,6 @@ func LoginPost(c *fiber.Ctx) error {
 		SetClaim("role", user.Role).
 		SetExpiration(expiration).
 		GetSignedString(nil)
-
 	if err != nil {
 		c.SendStatus(fiber.StatusInternalServerError)
 		return c.Render("err", fiber.Map{

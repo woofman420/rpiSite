@@ -34,7 +34,6 @@ func connect() {
 	db, err := gorm.Open(sqlite.Open(config.DB), &gorm.Config{
 		Logger: newLogger,
 	})
-
 	if err != nil {
 		log.Println("Failed to connect database.")
 		panic(err)

@@ -10,7 +10,7 @@ import (
 	"github.com/ohler55/ojg/oj"
 )
 
-//AccessToken in a struct that's returned from USw.
+// AccessToken in a struct that's returned from USw.
 type AccessToken struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
@@ -44,7 +44,6 @@ func CallbackHelperUSWPost(c *fiber.Ctx) error {
 	}
 
 	req, err := http.Post(url, "application/x-www-form-urlencoded", nil)
-
 	if err != nil {
 		log.Println("Error fetching URL:", err)
 		return c.Render("err", fiber.Map{
