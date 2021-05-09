@@ -49,10 +49,6 @@ warningCode = 0
 [rule.receiver-naming]
 [rule.redefines-builtin-id]
 [rule.string-of-int]
-[rule.string-format]
-  arguments = [
-    ["fmt.Errorf[0]", "/(^|[^\\.!?])$/", "must not end in punctuation"],
-    ["panic", "/^[^\\n]*$/", "must not contain line breaks"]]
 [rule.struct-tag]
 [rule.superfluous-else]
 [rule.time-naming]
