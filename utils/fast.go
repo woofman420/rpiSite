@@ -16,17 +16,12 @@ func UnsafeStringConversion(msg []byte) string {
 
 // UnsafeByteConversion will may break if string and/or slice header will change
 // in the future go versions.
-func UnsafeByteConversion(str string) []byte {
-	var b []byte
-	byteHeader := (*reflect.SliceHeader)(unsafe.Pointer(&b))
-	byteHeader.Data = (*reflect.StringHeader)(unsafe.Pointer(&str)).Data
-
-	// This reference is important as without it their is an chance
-	// That the str get GC'ed.
-	l := len(str)
-	byteHeader.Len = l
-	byteHeader.Cap = l
-
+func UnsafeByteConversion(s string) (b []byte) {
+	bh := (*reflect.SliceHeader)(unsafe.Pointer(&b))
+	sh := (*reflect.StringHeader)(unsafe.Pointer(&s))
+	bh.Data = sh.Data
+	bh.Len = sh.Len
+	bh.Cap = sh.Len
 	return b
 }
 
