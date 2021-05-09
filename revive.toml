@@ -58,7 +58,7 @@ warningCode = 0
 [rule.unconditional-recursion]
 [rule.unexported-naming]
 [rule.unexported-return]
-[unhandled-error]
+[rule.unhandled-error]
   arguments =["fmt.Printf", "myFunction"]
 [rule.unnecessary-stmt]
 [rule.unreachable-code]
