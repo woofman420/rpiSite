@@ -30,7 +30,7 @@ func RegisterPost(c *fiber.Ctx) error {
 
 	if subtle.ConstantTimeCompare(utils.UnsafeByteConversion(secretCode),
 		utils.UnsafeByteConversion(config.SecretCode)) != 1 {
-		c.Render("err", fiber.Map{
+		return c.Render("err", fiber.Map{
 			"Error": "Woopsie wrong secret code",
 		})
 	}
@@ -46,11 +46,11 @@ func RegisterPost(c *fiber.Ctx) error {
 	if regErr.Error != nil {
 		log.Printf("Failed to register %s, error: %s", u.Email, regErr.Error)
 
-		c.SendStatus(fiber.StatusInternalServerError)
-		return c.Render("err", fiber.Map{
-			"Title": "Register failed",
-			"Error": "Internal server error.",
-		})
+		return c.Status(fiber.StatusInternalServerError).
+			Render("err", fiber.Map{
+				"Title": "Register failed",
+				"Error": "Internal server error.",
+			})
 	}
 
 	return c.Redirect("/login", fiber.StatusSeeOther)

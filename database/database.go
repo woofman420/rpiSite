@@ -59,11 +59,15 @@ func Initialize() {
 		// Generate data for development.
 		if dropTables() && config.IsDebug == "true" {
 			log.Println("Dropping database tables.")
-			drop(&user)
+			if err := drop(&user); err != nil {
+				log.Fatalf("Couldn't drop, due to: %v", err.Error())
+			}
 			defer seed()
 		}
 
-		migrate(&user)
+		if err := migrate(&user); err != nil {
+			log.Fatalf("Couldn't migrate, due to: %v", err.Error())
+		}
 	}
 }
 
