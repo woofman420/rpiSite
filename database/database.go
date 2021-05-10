@@ -56,16 +56,17 @@ func Initialize() {
 	connect()
 
 	if !fiber.IsChild() {
+		var err error
 		// Generate data for development.
 		if dropTables() && config.IsDebug == "true" {
 			log.Println("Dropping database tables.")
-			if err := drop(&user); err != nil {
+			if err = drop(&user); err != nil {
 				log.Fatalf("Couldn't drop, due to: %v", err.Error())
 			}
 			defer seed()
 		}
 
-		if err := migrate(&user); err != nil {
+		if err = migrate(&user); err != nil {
 			log.Fatalf("Couldn't migrate, due to: %v", err.Error())
 		}
 	}
