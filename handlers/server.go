@@ -26,7 +26,7 @@ func renderEngine() *html.Engine {
 }
 
 func proxyHeader() (s string) {
-	if config.IsDebug != "true" {
+	if !config.IsDebug {
 		s = "X-Real-IP"
 	}
 
@@ -38,22 +38,22 @@ func JSONEncoder(v interface{}) ([]byte, error) {
 	return utils.UnsafeByteConversion(oj.JSON(v, oj.Options{OmitNil: true, HTMLUnsafe: false})), nil
 }
 
-// Initalize the server code and listen for it.
-func Initalize() {
+// Initialize the server code and listen for it.
+func Initialize() {
 	app := fiber.New(fiber.Config{
-		DisableStartupMessage: config.IsDebug == "false",
+		DisableStartupMessage: !config.IsDebug,
 		Views:                 renderEngine(),
 		ProxyHeader:           proxyHeader(),
 		Prefork:               true,
 		JSONEncoder:           JSONEncoder,
 	})
 
-	if config.IsDebug == "true" {
+	if config.IsDebug {
 		app.Use(logger.New())
 	}
 
 	app.Use(compress.New())
-	if config.IsDebug == "false" {
+	if !config.IsDebug {
 		app.Use(limiter.New(limiter.Config{Max: 150}))
 	}
 	app.Use(jwt.New())
@@ -61,14 +61,13 @@ func Initalize() {
 	app.Get("/", common.Index)
 	app.Group("/monitor", jwt.Protected, monitor.ProxyMonitor)
 
-	app.Get("/callback_helper/:type?", api.CallbackGet)
-	app.Post("/usw/access_token", api.CallbackHelperUSWPost)
+	app.Get("/callback_helper", api.CallbackGet)
 	app.Get("/register", common.RegisterGet)
 	app.Post("/register", common.RegisterPost)
 	app.Get("/login", common.LoginGet)
 	app.Post("/login", common.LoginPost)
 
-	if config.IsDebug == "true" {
+	if config.IsDebug {
 		app.Static("/", "/static")
 	}
 	app.Use("/", filesystem.New(filesystem.Config{

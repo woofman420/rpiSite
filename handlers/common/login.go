@@ -12,7 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// LoginGet is our handler for `GET /login`
+// LoginGet is our handler for `GET /login`.
 func LoginGet(c *fiber.Ctx) error {
 	if u, ok := jwt.User(c); ok {
 		log.Printf("User %d has set session, redirecting.", u.ID)
@@ -24,7 +24,7 @@ func LoginGet(c *fiber.Ctx) error {
 	})
 }
 
-// LoginPost is our handler for `GET /post`
+// LoginPost is our handler for `GET /post`.
 func LoginPost(c *fiber.Ctx) error {
 	form := models.User{
 		Email:    c.FormValue("email"),
@@ -77,7 +77,7 @@ func LoginPost(c *fiber.Ctx) error {
 		Value:    t,
 		Path:     "/",
 		Expires:  expiration,
-		Secure:   config.IsDebug == "false",
+		Secure:   !config.IsDebug,
 		HTTPOnly: true,
 		SameSite: "strict",
 	})

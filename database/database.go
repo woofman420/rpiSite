@@ -52,24 +52,25 @@ func migrate(tables ...interface{}) error {
 }
 
 // Initialize the database.
-func Initialize() {
+func Initialize() error {
 	connect()
 
 	if !fiber.IsChild() {
 		var err error
 		// Generate data for development.
-		if dropTables() && config.IsDebug == "true" {
+		if dropTables() && config.IsDebug {
 			log.Println("Dropping database tables.")
 			if err = drop(&user); err != nil {
-				log.Fatalf("Couldn't drop, due to: %v", err.Error())
+				return utils.ErrorCantMigrate(err.Error())
 			}
 			defer seed()
 		}
 
 		if err = migrate(&user); err != nil {
-			log.Fatalf("Couldn't migrate, due to: %v", err.Error())
+			return utils.ErrorCantMigrate(err.Error())
 		}
 	}
+	return nil
 }
 
 // drop given tables.
@@ -94,7 +95,7 @@ func seed() {
 		},
 	}
 
-	for _, user := range users {
-		DB.Create(&user)
+	for i := range users {
+		DB.Create(&users[i])
 	}
 }

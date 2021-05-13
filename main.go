@@ -1,11 +1,14 @@
 package main
 
 import (
+	"log"
 	"rpiSite/database"
 	"rpiSite/handlers"
 )
 
 func main() {
-	database.Initialize()
-	handlers.Initalize()
+	if err := database.Initialize(); err != nil {
+		log.Fatal(err)
+	}
+	handlers.Initialize()
 }

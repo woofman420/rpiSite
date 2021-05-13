@@ -12,7 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// RegisterGet is our handler for `GET /register`
+// RegisterGet is our handler for `GET /register`.
 func RegisterGet(c *fiber.Ctx) error {
 	if u, ok := jwt.User(c); ok {
 		log.Printf("User %d has set session, redirecting.", u.ID)
@@ -24,7 +24,7 @@ func RegisterGet(c *fiber.Ctx) error {
 	})
 }
 
-// RegisterPost is our handler for `POST /register`
+// RegisterPost is our handler for `POST /register`.
 func RegisterPost(c *fiber.Ctx) error {
 	secretCode := c.FormValue("secret_code")
 

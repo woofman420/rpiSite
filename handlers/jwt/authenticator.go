@@ -24,7 +24,10 @@ func mapClaim(c *fiber.Ctx) JWTParser.MapClaims {
 	if !ok {
 		return nil
 	}
-	claims := user.Claims.(JWTParser.MapClaims)
+	claims, ok := user.Claims.(JWTParser.MapClaims)
+	if !ok {
+		return nil
+	}
 
 	return claims
 }
@@ -39,12 +42,29 @@ func User(c *fiber.Ctx) (*models.APIUser, bool) {
 	}
 
 	// Type assertion will convert interface{} to other types.
-	u.Username = s["name"].(string)
-	if s["email"] != nil {
-		u.Email = s["email"].(string)
+
+	if name, ok := s["name"].(string); ok {
+		u.Username = name
+	} else {
+		return u, false
 	}
-	u.ID = uint(s["id"].(float64))
-	u.Role = models.Role(s["role"].(float64))
+
+	// Email is optionial thus don't return false when it fails.
+	if email, ok := s["email"].(string); ok {
+		u.Email = email
+	}
+
+	if userID, ok := s["id"].(float64); ok {
+		u.ID = uint(userID)
+	} else {
+		return u, false
+	}
+
+	if userRole, ok := s["role"].(float64); ok {
+		u.Role = models.Role(userRole)
+	} else {
+		return u, false
+	}
 
 	return u, true
 }

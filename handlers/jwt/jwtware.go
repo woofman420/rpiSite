@@ -1,8 +1,8 @@
 package jwt
 
 import (
-	"fmt"
 	"rpiSite/config"
+	"rpiSite/utils"
 	"strings"
 
 	"github.com/form3tech-oss/jwt-go"
@@ -14,9 +14,9 @@ var (
 	signingMethod = "HS512"
 )
 
-func keyFuncion(t *jwt.Token) (interface{}, error) {
+func keyFunction(t *jwt.Token) (interface{}, error) {
 	if t.Method.Alg() != signingMethod {
-		return nil, fmt.Errorf("unexpected jwt signing method=%v", t.Header["alg"])
+		return nil, utils.ErrorUnexpectedJWTAlgoirthm(t.Method.Alg())
 	}
 	return signingKey, nil
 }
@@ -43,7 +43,7 @@ func New() fiber.Handler {
 			return c.Next()
 		}
 
-		token, err := jwt.Parse(auth, keyFuncion)
+		token, err := jwt.Parse(auth, keyFunction)
 
 		if err == nil && token.Valid {
 			// Store user information from token into context.
