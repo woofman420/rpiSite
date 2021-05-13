@@ -52,6 +52,7 @@ func Initialize() {
 		app.Use(logger.New())
 	}
 
+	app.Use(common.HTSTMiddleware)
 	app.Use(compress.New())
 	if !config.IsDebug {
 		app.Use(limiter.New(limiter.Config{Max: 150}))
