@@ -7,9 +7,9 @@ var (
 	value  = []byte("max-age=63072000; includeSubDomains; preload")
 )
 
-// HTSTMiddleware adds the HTST Header
+// HSTSMiddleware adds the HSTS Header
 // See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
-func HTSTMiddleware(c *fiber.Ctx) error {
+func HSTSMiddleware(c *fiber.Ctx) error {
 	c.Response().Header.SetCanonical(header, value)
-	return nil
+	return c.Next()
 }
