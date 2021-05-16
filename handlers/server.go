@@ -6,6 +6,7 @@ import (
 	"rpiSite/handlers/api"
 	"rpiSite/handlers/common"
 	"rpiSite/handlers/jwt"
+	"rpiSite/handlers/middleware"
 	"rpiSite/handlers/monitor"
 	"rpiSite/utils"
 	"time"
@@ -52,7 +53,7 @@ func Initialize() {
 		app.Use(logger.New())
 	}
 
-	app.Use(common.HSTSMiddleware)
+	app.Use(middleware.AddHeaders)
 	app.Use(compress.New())
 	if !config.IsDebug {
 		app.Use(limiter.New(limiter.Config{Max: 150}))

@@ -10,6 +10,7 @@ check_cmd() {
         case "$1" in
             air) log "Install it with 'go get -u github.com/cosmtrek/air'" ;;
             sassc) log "Install 'sassc' with your package manager" ;;
+            pkger) log "Install it with 'go get github.com/markbates/pkger/cmd/pkger'" ;;
             inotify*) log "Install 'notify-tools' with your package manager" ;;
         esac
         return 1
@@ -47,11 +48,11 @@ prod() {
     [ $? = 1 ] && exit
     check_cmd inotifywait
     [ $? = 1 ] && exit
+    check_cmd pkger
+    [ $? = 1 ] && exit
     check_dir
     export_secrets
 
-    # Make sure a fresh copy of the scss
-    sassc --style compressed ./scss/main.scss ./static/main.css
     # Include all static files within the executeable
     pkger
     # As we enable CGO we need to have a compile to was compiled for cross-compiling.
