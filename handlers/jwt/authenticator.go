@@ -10,11 +10,11 @@ import (
 // Protected is the function to make sure the user is logged in.
 var Protected = func(c *fiber.Ctx) error {
 	if _, ok := User(c); !ok {
-		c.Status(fiber.StatusUnauthorized)
-		return c.Render("login", fiber.Map{
-			"Title": "Login is required",
-			"Error": "You must log in to do this action.",
-		})
+		return c.Status(fiber.StatusUnauthorized).
+			Render("login", fiber.Map{
+				"Title": "Login is required",
+				"Error": "You must log in to do this action.",
+			})
 	}
 	return c.Next()
 }

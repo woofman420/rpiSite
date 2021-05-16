@@ -3,34 +3,35 @@ package monitor
 import (
 	"rpiSite/handlers/jwt"
 	"rpiSite/models"
-	"rpiSite/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/valyala/fasthttp"
 )
 
-const addr = "http://localhost:19999"
+var (
+	addr = []byte("http://localhost:19999")
+)
 
 var client = fasthttp.Client{
 	NoDefaultUserAgentHeader: true,
 	DisablePathNormalizing:   true,
 }
 
-func createAdrress(c *fiber.Ctx) string {
-	address := addr
-
-	path := c.Path()[8:]
-	address += path
-	if path == "" {
-		address += "/"
+func createAdrress(c *fiber.Ctx) (address []byte) {
+	path := c.Request().URI().Path()[8:]
+	address = append(addr, path...)
+	if len(path) == 0 {
+		// Byte 47 is `/`
+		address = append(address, 47)
 	}
 
-	queryBytes := c.Context().QueryArgs().QueryString()
-	if len(queryBytes) == 0 {
+	if c.Context().QueryArgs().Len() == 0 {
 		return address
 	}
-	address += "?" + utils.UnsafeStringConversion(queryBytes)
-	return address
+	// Byte 63 = `?`
+	address = append(address, 63)
+	address = append(address, c.Context().QueryArgs().QueryString()...)
+	return
 }
 
 // ProxyMonitor is the handler for `/monitor`
@@ -43,17 +44,12 @@ func ProxyMonitor(c *fiber.Ctx) error {
 			SendString("Not authorized!")
 	}
 
+	// String equality is faster than bytes equality so we don't optimizate this.
 	if c.Path() == "/monitor" {
 		return c.Redirect("/monitor/", 301)
 	}
 	req := c.Request()
-	res := c.Response()
-	req.SetRequestURI(createAdrress(c))
+	req.SetRequestURIBytes(createAdrress(c))
 
-	host := utils.UnsafeStringConversion(c.Context().Host())
-	req.Header.Add("X-Forwarded-Host", host)
-	req.Header.Add("X-Forwarded-Server", host)
-	req.Header.Add("X-Forwarded-for", c.IP())
-
-	return client.Do(req, res)
+	return client.Do(req, c.Response())
 }
