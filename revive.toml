@@ -7,7 +7,6 @@ warningCode = 0
 [rule.argument-limit]
   arguments =[4]
 [rule.atomic]
-[rule.bare-return]
 [rule.blank-imports]
 [rule.bool-literal-in-expr]
 [rule.call-to-gc]
