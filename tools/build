@@ -61,6 +61,7 @@ prod() {
     GOOS=linux GOARCH=arm64 go build \
         -ldflags '-s -w -extldflags "-fno-PIC"' \
         -buildmode pie -tags 'osusergo netgo'
+    ssh $SSHServer 'cp /home/gusted/site /home/gusted/site.old'
     echo $PASSWORD | ssh $SSHServer 'sudo -S systemctl stop site.service'
     scp ./rpiSite $SSHServer:/home/gusted/site
     echo $PASSWORD | ssh $SSHServer 'sudo -S systemctl start site.service'
