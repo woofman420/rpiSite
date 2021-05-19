@@ -13,8 +13,9 @@ var (
 )
 
 var client = fasthttp.Client{
-	NoDefaultUserAgentHeader: true,
-	DisablePathNormalizing:   true,
+	NoDefaultUserAgentHeader:      true,
+	DisablePathNormalizing:        true,
+	DisableHeaderNamesNormalizing: true,
 }
 
 func createAdrress(c *fiber.Ctx) (address []byte) {
