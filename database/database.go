@@ -3,10 +3,11 @@ package database
 import (
 	"log"
 	"os"
+	"time"
+
 	"rpiSite/config"
 	"rpiSite/models"
 	"rpiSite/utils"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/driver/sqlite"

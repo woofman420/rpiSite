@@ -2,8 +2,9 @@ package utils
 
 import (
 	"log"
-	"rpiSite/config"
 	"strconv"
+
+	"rpiSite/config"
 
 	"golang.org/x/crypto/bcrypt"
 )

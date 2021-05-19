@@ -2,12 +2,13 @@ package common
 
 import (
 	"log"
+	"time"
+
 	"rpiSite/config"
 	"rpiSite/database"
 	"rpiSite/handlers/jwt"
 	"rpiSite/models"
 	"rpiSite/utils"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 )

@@ -1,9 +1,10 @@
 package jwt
 
 import (
+	"strings"
+
 	"rpiSite/config"
 	"rpiSite/utils"
-	"strings"
 
 	"github.com/form3tech-oss/jwt-go"
 	"github.com/gofiber/fiber/v2"

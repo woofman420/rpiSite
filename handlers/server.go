@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"log"
+	"time"
+
 	"rpiSite/config"
 	"rpiSite/handlers/api"
 	"rpiSite/handlers/common"
@@ -9,7 +11,6 @@ import (
 	"rpiSite/handlers/middleware"
 	"rpiSite/handlers/monitor"
 	"rpiSite/utils"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"

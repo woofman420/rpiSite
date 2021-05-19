@@ -8,9 +8,7 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-var (
-	addr = []byte("http://localhost:19999")
-)
+var addr = []byte("http://localhost:19999")
 
 var client = fasthttp.Client{
 	NoDefaultUserAgentHeader:      true,

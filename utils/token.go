@@ -1,8 +1,9 @@
 package utils
 
 import (
-	"rpiSite/config"
 	"time"
+
+	"rpiSite/config"
 
 	"github.com/form3tech-oss/jwt-go"
 )
