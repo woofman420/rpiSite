@@ -38,8 +38,5 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
 
-    - name: Download gofumpt
-      run: GO111MODULE=on go get mvdan.cc/gofumpt
-
     - name: Check formatting
-      run: test -z $(gofumpt -s -l .) || (gofumpt -s -l . && exit 1)
+      run: test -z $(goimports -w -local rpiSite -l .) || (goimports -w -local rpiSite -l && exit 1)
