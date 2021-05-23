@@ -53,12 +53,16 @@ func LoginPost(c *fiber.Ctx) error {
 				"Error": "Invalid credentials.",
 			})
 	}
+	return successLogin(c, user, remember)
+}
 
+func successLogin(c *fiber.Ctx, user *models.User, shouldRemember bool) error {
 	var expiration time.Time
-	if remember {
+	if shouldRemember {
 		// 2 weeks
 		expiration = time.Now().Add(time.Hour * 24 * 14)
 	}
+
 	t, err := utils.NewJWTToken().
 		SetClaim("id", user.ID).
 		SetClaim("name", user.Username).
