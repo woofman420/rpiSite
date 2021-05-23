@@ -78,7 +78,7 @@ func LoginPost(c *fiber.Ctx) error {
 		Value:    t,
 		Path:     "/",
 		Expires:  expiration,
-		Secure:   !config.IsDebug,
+		Secure:   config.IsProduction,
 		HTTPOnly: true,
 		SameSite: "strict",
 	})

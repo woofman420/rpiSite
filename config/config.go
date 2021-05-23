@@ -6,6 +6,9 @@ var (
 	// IsDebug checks if current runtime is debug env.
 	IsDebug = getEnv("DEBUG", "false") == "true"
 
+	// IsProduction checks if current runtime is producntion env.
+	IsProduction = !IsDebug
+
 	// Port which the server is listening.
 	Port = getEnv("PORT", ":8080")
 

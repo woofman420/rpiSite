@@ -28,7 +28,7 @@ func renderEngine() *html.Engine {
 }
 
 func proxyHeader() (s string) {
-	if !config.IsDebug {
+	if config.IsProduction {
 		s = "X-Real-IP"
 	}
 
@@ -43,10 +43,10 @@ func JSONEncoder(v interface{}) ([]byte, error) {
 // Initialize the server code and listen for it.
 func Initialize() {
 	app := fiber.New(fiber.Config{
-		DisableStartupMessage: !config.IsDebug,
+		DisableStartupMessage: config.IsProduction,
 		Views:                 renderEngine(),
 		ProxyHeader:           proxyHeader(),
-		Prefork:               true,
+		Prefork:               config.IsProduction,
 		JSONEncoder:           JSONEncoder,
 	})
 
@@ -56,7 +56,7 @@ func Initialize() {
 
 	app.Use(middleware.AddHeaders)
 	app.Use(compress.New())
-	if !config.IsDebug {
+	if config.IsProduction {
 		app.Use(limiter.New(limiter.Config{Max: 150}))
 	}
 	app.Use(jwt.New())
