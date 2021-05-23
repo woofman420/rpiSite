@@ -44,7 +44,7 @@ func LoginPost(c *fiber.Ctx) error {
 			})
 	}
 
-	if !utils.CompareHashedPassword(user.Password, form.Password) {
+	if utils.CompareHashedPassword(user.Password, form.Password) {
 		log.Printf("Failed to match hash for user: %#+v\n", user.Email)
 
 		return c.Status(fiber.StatusInternalServerError).
