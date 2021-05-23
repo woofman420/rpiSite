@@ -46,7 +46,6 @@ func Initialize() {
 		DisableStartupMessage: config.IsProduction,
 		Views:                 renderEngine(),
 		ProxyHeader:           proxyHeader(),
-		Prefork:               config.IsProduction,
 		JSONEncoder:           JSONEncoder,
 	})
 
