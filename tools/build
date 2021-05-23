@@ -59,8 +59,8 @@ prod() {
     # This specified CC is design to cross-compile against the RPI4 specs.
     CGO_ENABLED=1 CC="/home/gusted/x-tools/aarch64-rpi4-linux-gnu/bin/aarch64-rpi4-linux-gnu-gcc" CGO_CFLAGS="-O3 -g" \
     GOOS=linux GOARCH=arm64 go build \
-        -ldflags '-s -w -extldflags "-fno-PIC"' \
-        -buildmode pie -tags 'osusergo netgo'
+        -ldflags '-s -w -extldflags "-fno-PIC -O3"' \
+        -buildmode pie
     ssh $SSHServer 'cp /home/gusted/site /home/gusted/site.old'
     echo $PASSWORD | ssh $SSHServer 'sudo -S systemctl stop site.service'
     scp ./rpiSite $SSHServer:/home/gusted/site
@@ -93,11 +93,11 @@ build() {
     log "build"
     check_dir
     rm "./pkged.go"
-    
+
     CGO_ENABLED=1 CGO_CFLAGS="-O3 -g" \
     GOOS=linux go build \
-        -ldflags '-s -w -extldflags "-fno-PIC"' \
-        -buildmode pie -tags 'osusergo netgo'
+        -ldflags '-s -w -extldflags "-fno-PIC -O3"' \
+        -buildmode pie
 }
 
 case "$1" in
