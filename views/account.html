@@ -6,9 +6,9 @@
     <body>
         <main>
             <div class="wrapper v-center">
-                <section>
-                    <p>This site is mine and I can do whatever I want with it - Gusted</p>
-                    <h3>ᕦ(ò_óˇ)ᕤ</h3>
+                {{ template "partials/alert" . }}
+                <section class="welcome">
+                    <h1 class="title mb:m">Hi, {{ .User.Username }}!</h1>
                 </section>
             </div>
         </main>

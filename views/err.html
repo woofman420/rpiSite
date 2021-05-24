@@ -4,6 +4,10 @@
         {{ template "partials/head" . }}
     </head>
     <body>
-        <p>{{ .Error }}</p>
+        <main>
+            <p>{{ .Error }}</p>
+        </main>
+
+        {{ template "partials/footer" . }}
     </body>
 </html>

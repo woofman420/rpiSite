@@ -10,6 +10,7 @@ import (
 	"rpiSite/handlers/jwt"
 	"rpiSite/handlers/middleware"
 	"rpiSite/handlers/monitor"
+	"rpiSite/handlers/user"
 	"rpiSite/utils"
 
 	"github.com/gofiber/fiber/v2"
@@ -70,6 +71,8 @@ func Initialize() {
 	app.Post("/register", common.RegisterPost)
 	app.Get("/login", common.LoginGet)
 	app.Post("/login", common.LoginPost)
+
+	app.Get("/account", jwt.Protected, user.AccountGet)
 
 	if config.IsDebug {
 		app.Static("/", "/static")

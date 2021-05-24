@@ -4,8 +4,12 @@
         {{ template "partials/head" . }}
     </head>
     <body>
-        <div class="center-container">
-            <textarea>{{- .Callback -}}</textarea>
-        </div>
+        <main>
+            <div class="center-container">
+                <textarea>{{- .Callback -}}</textarea>
+            </div>
+        </main>
+
+        {{ template "partials/footer" . }}
     </body>
 </html>
