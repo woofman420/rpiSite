@@ -77,7 +77,7 @@ dev() {
         DB_DEBUG="${2:-silent}" \
         DB_DROP="${3:-false}" \
         DB_COLOR="true" \
-        air
+        air -c tools/air.toml
 }
 
 drop() {
@@ -86,7 +86,7 @@ drop() {
     env DB_DROP="true" \
         DB_COLOR="true" \
         DB_DEBUG="${2:-silent}" \
-        air
+        air -c tools/air.toml
 }
 
 build() {

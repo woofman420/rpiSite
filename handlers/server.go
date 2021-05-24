@@ -24,6 +24,8 @@ import (
 
 func renderEngine() *html.Engine {
 	engine := html.NewFileSystem(pkger.Dir("/views"), ".html")
+
+	engine.Reload(config.IsDebug)
 	return engine
 }
 
