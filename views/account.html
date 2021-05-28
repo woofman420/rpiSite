@@ -7,8 +7,12 @@
         <main>
             <div class="wrapper v-center">
                 {{ template "partials/alert" . }}
-                <section class="welcome">
+                <section class="welcome border">
                     <h1 class="title mb:m">Hi, {{ .User.Username }}!</h1>
+                </section>
+                <section>
+                    <h3>{{ .TimingOfTheDay }}</h3>
+                    <p>How are you doing? Don't answer that I'm just a stupido site.</p>
                 </section>
             </div>
         </main>
