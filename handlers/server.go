@@ -72,6 +72,9 @@ func Initialize() {
 	app.Get("/login", common.LoginGet)
 	app.Post("/login", common.LoginPost)
 
+	year2021 := app.Group("/2021")
+	year2021.Get("/eindgesprek", common.EindgesprekGet)
+
 	app.Get("/account", jwt.Protected, user.AccountGet)
 
 	if config.IsDebug {

@@ -13,7 +13,7 @@
 
 // Dark mode colors.
 $bg-dark:  rgb(40, 46, 51);
-$fg-dark:  rgb(253, 238, 245);
+$fg-dark:  rgb(230, 228, 236);
 $ac-dark:  #679CD0;
 $st-dark:  #27fffb;
 
@@ -25,10 +25,10 @@ $mode: (
     "fourth-background": lighten($bg-dark, 15%),
     "fifth-background": lighten($bg-dark, 20%),
     "primary-color": darken($fg-dark,  0%),
-    "secondary-color": darken($fg-dark, 12%),
-    "third-color": darken($fg-dark, 24%),
-    "fourth-color": darken($fg-dark, 36%),
-    "fifth-color": darken($fg-dark, 48%),
+    "secondary-color": darken($fg-dark, 3%),
+    "third-color": darken($fg-dark, 14%),
+    "fourth-color": darken($fg-dark, 26%),
+    "fifth-color": darken($fg-dark, 38%),
     "primary-accent": darken($ac-dark,  0%),
     "secondary-accent": darken($ac-dark, 16%),
     "third-accent": darken($ac-dark, 24%),

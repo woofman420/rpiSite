@@ -53,6 +53,8 @@ prod() {
     check_dir
     export_secrets
 
+    cp -r assets/. static/
+
     # Include all static files within the executeable
     pkger
     # As we enable CGO we need to have a compile to was compiled for cross-compiling.

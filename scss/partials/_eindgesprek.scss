@@ -1,0 +1,76 @@
+.wave {
+    animation-name: wave-animation;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    transform-origin: 70% 70%;
+    display: inline-block;
+}
+@keyframes wave-animation {
+    0% { transform: rotate(-8.0deg) }
+    25% { transform: rotate(14.0deg) }
+    50% { transform: rotate(-8.0deg) }
+    75% { transform: rotate(14.0deg) }
+    100% { transform: rotate(-8.0deg) }
+}
+
+.blink {
+    transform-origin: 70% 70%;
+    display: inline-block;
+    &::after {
+        animation-name: blink-animation;
+        animation-duration: 2.5s;
+        animation-iteration-count: infinite;
+        content: '';
+    }
+}
+@keyframes blink-animation {
+    0% { content: '😐'}
+    50% { content: '😐' }
+    65% { content: '😑' }
+    70% { content: '😐' }
+    75% { content: '😑'}
+    100% { content: '😐' }
+}
+
+.section {
+    background-color: var(--secondary-background);
+    border-radius: 1.25em;
+    border: thin solid var(--fourth-accent);
+
+    padding: 2% 4%;
+    margin: 5%;
+    max-width: calc(var(--layout-max-width) - 20rem);
+    width: 100%;
+
+    &.right {
+        float: right;
+    }
+    p {
+        color: var(--secondary-color);
+        font-family: var(--font-sans);
+        &:first-of-type {
+            padding-top: 1em;
+        }
+    }
+    h2 {
+        text-decoration: underline var(--fourth-accent);
+        font-size: 1.75em;
+    }
+    img {
+        transition: all .2s;
+
+        &:not(.no-hover):hover {
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+}
+
+.sections {
+    padding-left: 1em;
+    padding-right: 1em;
+    width: 100%;
+}
