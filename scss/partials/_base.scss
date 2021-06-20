@@ -23,8 +23,16 @@ html {
             display: flex;
             min-height: calc(100vh - 130px);
         }
-        > footer > div {
-            min-height: 64px;
+        > footer {
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+            border-top: 2px solid var(--fourth-accent);
+
+            > div {
+                padding-top: 0.5em;
+                padding-bottom: 0.5em;
+            }
         }
         .v-center {
             padding-top: 2.25em;
