@@ -24,8 +24,12 @@ import (
 )
 
 func renderEngine() *html.Engine {
+	cssHash := utils.GetCSSHash()
 	engine := html.NewFileSystem(pkger.Dir("/views"), ".html")
 
+	engine.AddFunc("cssHash", func() string {
+		return cssHash
+	})
 	engine.Reload(config.IsDebug)
 	return engine
 }

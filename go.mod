@@ -3,6 +3,7 @@ module rpiSite
 go 1.16
 
 require (
+	github.com/cespare/xxhash v1.1.0
 	github.com/form3tech-oss/jwt-go v3.2.3+incompatible
 	github.com/gofiber/fiber/v2 v2.13.0
 	github.com/gofiber/template v1.6.12
