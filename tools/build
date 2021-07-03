@@ -33,13 +33,26 @@ sass() {
     log "sass"
     check_cmd sassc
     [ $? = 1 ] && exit
-    check_cmd inotifywait
-    [ $? = 1 ] && exit
 
+    # Go to project root.
     check_dir
-    while inotifywait -r -e close_write scss; do
-        sassc --style compressed ./scss/main.scss ./static/main.css
-    done
+
+    # Sassc fails if directory doesn't exist.
+    mkdir -p ./static/css
+
+    if [ "$2" = "--watch" ]; then
+        check_cmd inotifywait
+        [ $? = 1 ] && exit
+        while inotifywait -r -e close_write scss; do
+            _sass
+        done
+    else
+        _sass
+    fi
+}
+
+_sass() {
+    sassc --style compressed ./scss/main.scss ./static/css/main.css
 }
 
 prod() {
@@ -55,8 +68,9 @@ prod() {
 
     cp -r assets/. static/
 
-    # Include all static files within the executeable
+    # Include all static files within the exec
     pkger
+
     # As we enable CGO we need to have a compile to was compiled for cross-compiling.
     # This specified CC is design to cross-compile against the RPI4 specs.
     CGO_ENABLED=1 CC="/home/gusted/x-tools/aarch64-rpi4-linux-gnu/bin/aarch64-rpi4-linux-gnu-gcc" CGO_CFLAGS="-O3 -g" \

@@ -28,7 +28,11 @@ func renderEngine() *html.Engine {
 	engine := html.NewFileSystem(pkger.Dir("/views"), ".html")
 
 	engine.AddFunc("cssHash", func() string {
-		return cssHash
+		if config.IsDebug {
+			return utils.GetCSSHash()
+		} else {
+			return cssHash
+		}
 	})
 	engine.Reload(config.IsDebug)
 	return engine
