@@ -11,7 +11,7 @@ import (
 // GetCSSHash get hash of the css file.
 func GetCSSHash() string {
 	newHash := xxhash.New()
-	f, err := pkger.Open("/static/main.css") // can't use a wrapper function or pkger doesn't pack it!
+	f, err := pkger.Open("/static/css/main.css") // can't use a wrapper function or pkger doesn't pack it!
 	if err != nil {
 		panic(err)
 	}
