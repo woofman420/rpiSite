@@ -23,6 +23,43 @@
         content: '';
     }
 }
+
+.thumbs-up {
+    transform-origin: 70% 70%;
+    display: inline-block;
+    &::after {
+        content: '👍';
+    }
+}
+
+.nerd {
+    transform-origin: 70% 70%;
+    display: inline-block;
+    &::after {
+        content: '🤓';
+    }
+}
+
+.why {
+    animation-name: why-animation;
+    animation-duration: 15s;
+    animation-iteration-count: infinite;
+    animation-timing-function: step-start;
+    transform-origin: center;
+    display: inline-block;
+    &::after {
+        content: '🤔';
+    }   
+}
+
+@keyframes why-animation {
+    0% { transform: rotateY(0deg) }
+    25% { transform: rotateY(180deg) }
+    50% { transform: rotateY(0deg) }
+    75% { transform: rotateY(180deg) }
+    100% { transform: rotateY(0deg) }
+}
+
 @keyframes blink-animation {
     0% { content: '😐'}
     50% { content: '😐' }
@@ -49,6 +86,10 @@
     &.right {
         float: right;
     }
+    &.left {
+        float: left;
+    }
+
     p {
         color: var(--secondary-color);
         font-family: var(--font-sans);
