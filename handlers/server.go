@@ -9,7 +9,6 @@ import (
 	"rpiSite/handlers/common"
 	"rpiSite/handlers/jwt"
 	"rpiSite/handlers/middleware"
-	"rpiSite/handlers/monitor"
 	"rpiSite/handlers/user"
 	"rpiSite/utils"
 
@@ -72,7 +71,8 @@ func Initialize() {
 	app.Use(jwt.New())
 
 	app.Get("/", common.Index)
-	app.Group("/monitor", jwt.Protected, monitor.ProxyMonitor)
+	app.Get("/.gpg", common.GPG)
+	app.Get("/gusted.gpg", common.GPG)
 
 	app.Get("/callback_helper", api.CallbackGet)
 	app.Get("/register", common.RegisterGet)
