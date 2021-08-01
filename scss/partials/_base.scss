@@ -24,14 +24,33 @@ html {
             min-height: calc(100vh - 130px);
         }
         > footer {
-            position: relative;
-            text-align: center;
-            overflow: hidden;
-            border-top: 2px solid var(--fourth-accent);
+            width: 100%;
+            margin: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            max-width: var(--layout-max-width);
+
+            > .wrapper {
+                justify-content: space-between;
+            }
 
             > div {
                 padding-top: 0.5em;
                 padding-bottom: 0.5em;
+            }
+
+            ul {
+                flex-flow: row wrap;
+            }
+            
+            li {
+                list-style: none;
+
+                &:not(:last-child)::after {
+                    content: "/";
+                    padding: 0 0.5rem;
+                    color: var(--fg-5);
+                }
             }
         }
         .v-center {
@@ -42,6 +61,10 @@ html {
     a {
         color: rgb(151, 255, 255);
         text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
     hr {
         border: none;
@@ -74,4 +97,18 @@ section {
     > p {
         margin-bottom: 0.5em;
     }
+}
+
+.mr-a {
+    margin-right: auto;
+}
+.ai-c {
+    align-items: center;
+}
+.py-m {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.flex {
+    display: flex;
 }
