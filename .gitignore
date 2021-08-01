@@ -2,6 +2,7 @@ public.asc
 pkged.go
 .vscode/
 rpiSite
+backup/
 static/
 .auth
 *.db
