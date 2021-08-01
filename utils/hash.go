@@ -2,24 +2,20 @@ package utils
 
 import (
 	"encoding/base32"
-	"io"
+	"log"
+	"os"
 
 	"github.com/cespare/xxhash"
-	"github.com/markbates/pkger"
 )
 
 // GetCSSHash get hash of the css file.
 func GetCSSHash() string {
 	newHash := xxhash.New()
-	f, err := pkger.Open("/static/css/main.css") // can't use a wrapper function or pkger doesn't pack it!
+	f, err := os.ReadFile("./static/css/main.css")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	b, err := io.ReadAll(f)
-	if err != nil {
-		panic(err)
-	}
-	newHash.Write(b)
+	newHash.Write(f)
 	return hashForFileName(newHash.Sum(nil))
 }
 

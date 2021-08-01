@@ -10,7 +10,6 @@ check_cmd() {
         case "$1" in
             air) log "Install it with 'go get -u github.com/cosmtrek/air'" ;;
             sassc) log "Install 'sassc' with your package manager" ;;
-            pkger) log "Install it with 'go get github.com/markbates/pkger/cmd/pkger'" ;;
             inotify*) log "Install 'notify-tools' with your package manager" ;;
         esac
         return 1
@@ -53,34 +52,6 @@ sass() {
 
 _sass() {
     sassc --style compressed ./scss/main.scss ./static/css/main.css
-}
-
-prod() {
-    log "prod"
-    check_cmd sassc
-    [ $? = 1 ] && exit
-    check_cmd inotifywait
-    [ $? = 1 ] && exit
-    check_cmd pkger
-    [ $? = 1 ] && exit
-    check_dir
-    export_secrets
-
-    cp -r assets/. static/
-
-    # Include all static files within the exec
-    pkger
-
-    # As we enable CGO we need to have a compile to was compiled for cross-compiling.
-    # This specified CC is design to cross-compile against the RPI4 specs.
-    CGO_ENABLED=1 CC="/home/gusted/x-tools/aarch64-rpi4-linux-gnu/bin/aarch64-rpi4-linux-gnu-gcc" CGO_CFLAGS="-O3 -g" \
-    GOOS=linux GOARCH=arm64 go build \
-        -ldflags '-s -w -extldflags "-fno-PIC -O3"' \
-        -buildmode pie
-    ssh $SSHServer 'cp /home/gusted/site /home/gusted/site.old'
-    echo $PASSWORD | ssh $SSHServer 'sudo -S systemctl stop site.service'
-    scp ./rpiSite $SSHServer:/home/gusted/site
-    echo $PASSWORD | ssh $SSHServer 'sudo -S systemctl start site.service'
 }
 
 dev() {

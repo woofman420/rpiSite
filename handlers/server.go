@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"log"
+	"net/http"
 	"time"
 
 	"rpiSite/config"
@@ -18,13 +19,12 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/html"
-	"github.com/markbates/pkger"
 	"github.com/ohler55/ojg/oj"
 )
 
 func renderEngine() *html.Engine {
 	cssHash := utils.GetCSSHash()
-	engine := html.NewFileSystem(pkger.Dir("/views"), ".html")
+	engine := html.NewFileSystem(http.Dir("./views"), ".html")
 
 	engine.AddFunc("cssHash", func() string {
 		if config.IsDebug {
@@ -90,7 +90,7 @@ func Initialize() {
 	}
 	app.Use("/", filesystem.New(filesystem.Config{
 		MaxAge: int(time.Hour) * 2,
-		Root:   pkger.Dir("/static"),
+		Root:   http.Dir("./static"),
 	}))
 
 	app.Use(common.NotFound)
