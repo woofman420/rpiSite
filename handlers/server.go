@@ -10,7 +10,6 @@ import (
 	"rpiSite/handlers/common"
 	"rpiSite/handlers/jwt"
 	"rpiSite/handlers/middleware"
-	"rpiSite/handlers/user"
 	"rpiSite/utils"
 
 	"github.com/gofiber/fiber/v2"
@@ -75,15 +74,15 @@ func Initialize() {
 	app.Get("/gusted.gpg", common.GPG)
 
 	app.Get("/callback_helper", api.CallbackGet)
-	app.Get("/register", common.RegisterGet)
-	app.Post("/register", common.RegisterPost)
-	app.Get("/login", common.LoginGet)
-	app.Post("/login", common.LoginPost)
+	//app.Get("/register", common.RegisterGet)
+	//app.Post("/register", common.RegisterPost)
+	//app.Get("/login", common.LoginGet)
+	//app.Post("/login", common.LoginPost)
 
 	year2021 := app.Group("/2021")
 	year2021.Get("/eindgesprek", common.EindgesprekGet)
 
-	app.Get("/account", jwt.Protected, user.AccountGet)
+	//app.Get("/account", jwt.Protected, user.AccountGet)
 
 	if config.IsDebug {
 		app.Static("/", "/static")
