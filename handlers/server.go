@@ -8,7 +8,6 @@ import (
 	"rpiSite/config"
 	"rpiSite/handlers/api"
 	"rpiSite/handlers/common"
-	"rpiSite/handlers/jwt"
 	"rpiSite/handlers/middleware"
 	"rpiSite/utils"
 
@@ -67,7 +66,7 @@ func Initialize() {
 	if config.IsProduction {
 		app.Use(limiter.New(limiter.Config{Max: 150}))
 	}
-	app.Use(jwt.New())
+	//	app.Use(jwt.New())
 
 	app.Get("/", common.Index)
 	app.Get("/.gpg", common.GPG)
