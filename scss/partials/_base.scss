@@ -53,6 +53,18 @@ html {
                 }
             }
         }
+
+        .row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        section {
+            h2 {
+                font-size: 2.5rem;
+                color: var(--fifth-color);
+            }
+        }
         .v-center {
             padding-top: 2.25em;
             padding-bottom: 2.25em;
@@ -68,7 +80,7 @@ html {
     }
     hr {
         border: none;
-        border-top: 1px solid var(--third-background)
+        border-top: 2px solid var(--third-background)
     }
     h1 {
         font-size: 2.5em;
