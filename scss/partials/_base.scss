@@ -18,15 +18,15 @@ html {
             padding-left: 1rem;
             padding-right: 1rem;
         }
+
         > main {
             display: flex;
-            min-height: calc(100vh - 130px);
+            min-height: calc(100vh - 57px) !important;
         }
+
         > footer {
-            width: 100%;
-            margin: auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
+            border-top: 1px solid var(--fourth-background);
+            background-color: var(--secondary-background);
 
             > .wrapper {
                 justify-content: space-between;
@@ -108,6 +108,7 @@ html {
     display: inline-flex;
     min-width: 15ex;
 }
+
 section {
     &.border {
         border: 0.25em solid var(--secondary-accent);

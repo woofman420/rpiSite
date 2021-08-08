@@ -59,7 +59,7 @@ dev() {
     check_cmd air
     check_dir
     export_secrets
-    rm "./pkged.go"
+
     env DEBUG="true" \
         DB_DEBUG="${2:-silent}" \
         DB_DROP="${3:-false}" \
@@ -79,7 +79,6 @@ drop() {
 build() {
     log "build"
     check_dir
-    rm "./pkged.go"
 
     CGO_ENABLED=1 CGO_CFLAGS="-O3 -g" \
     GOOS=linux go build \
