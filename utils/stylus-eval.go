@@ -7,10 +7,6 @@ import (
 	"rpiSite/config"
 )
 
-var (
-	currentDir = os.Getenv("PWD")
-)
-
 // Go to the /home/gusted/Desktop/coding/stylus-eval.
 // And execeute the command:
 // ./setup.sh "/path/to/CSS" "site"
@@ -22,7 +18,7 @@ func TakeScreenshot(CSS, site, filename string) error {
 	}
 
 	// Take the screenshot.
-	cmd := exec.Command(config.StylusEvalDir+"/setup.sh", currentDir+"/tmp.css", site)
+	cmd := exec.Command(config.StylusEvalDir+"setup.sh", config.WorkingDir+"/tmp.css", site)
 	output, err := cmd.Output()
 
 	if err != nil {
@@ -31,7 +27,7 @@ func TakeScreenshot(CSS, site, filename string) error {
 	}
 
 	// Move the screenshot to the right place.
-	err = os.Rename(config.StylusEvalDir+"/output.png", currentDir+"/static/"+filename+".png")
+	err = os.Rename(config.StylusEvalDir+"output.png", config.WorkingDir+"/static/"+filename+".png")
 	if err != nil {
 		log.Println("failed to move screenshot:", err)
 		return err

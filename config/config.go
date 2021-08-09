@@ -30,7 +30,17 @@ var (
 
 	// StylusEvalDir is the directory where stylus files are stored.
 	StylusEvalDir = getEnv("STYLUS_EVAL_DIR", "/home/gusted/Desktop/coding/stylus-eval/")
+
+	WorkingDir = getWorkingDir()
 )
+
+func getWorkingDir() string {
+	if wd, err := os.Getwd(); err != nil {
+		panic(err)
+	} else {
+		return wd
+	}
+}
 
 func getEnv(value, backupValue string) string {
 	if envValue, ok := os.LookupEnv(value); ok {
