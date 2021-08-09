@@ -11,7 +11,7 @@
                     <label for="url">Site's URL</label>
                     <input type="text" name="url" id="url" {{ with .URL }} value={{ . }} {{ end }}>
                     <label for="css">CSS File</label>
-                    <textarea name="css" id="css">{{ with .CSS }} {{ . }} {{ end }}</textarea>
+                    <textarea name="css" id="css">{{ with .CSS }}{{ . }}{{ end }}</textarea>
                 <input type="submit" value="Submit!">
             </div>
         </main>
