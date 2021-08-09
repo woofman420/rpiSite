@@ -4,10 +4,12 @@
         {{ template "partials/head" . }}
     </head>
     <body>
-        <main style="justify-content: center; align-items: center;">
-            <h3>{{ .URl }}:</h3>
-            <div style="border: 1px solid gray;">
-                <img src="/{{ .fileName }}.png" style="width: unset; height: unset;">
+        <main>
+            <div class="wrapper">
+                <h2>{{ .URL }}:</h2>
+                <div class="hv-center">
+                    <img src="/{{ .fileName }}.png" style="width: unset; height: unset; border: 1px solid gray;">
+                </div>
             </div>
         </main>
 

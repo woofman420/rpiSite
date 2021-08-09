@@ -79,6 +79,11 @@ html {
             flex-direction: column;
             text-align: center;
         }
+        .hv-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
     a {
         color: rgb(151, 255, 255);
