@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {{ template "partials/head" . }}
+    </head>
+    <body>
+        <main>
+            {{ template "partials/alert" . }}
+            <div class="wrapper py:l">
+                <form clid="stylus" method="post" action="/stylus">
+                    <label for="url">Site's URL</label>
+                    <input type="text" name="url" id="url" {{ with .URL }} value={{ . }} {{ end }}>
+                    <label for="css">CSS File</label>
+                    <textarea name="css" id="css">{{ with .CSS }} {{ . }} {{ end }}</textarea>
+                <input type="submit" value="Submit!">
+            </div>
+        </main>
+
+        {{ template "partials/footer" . }}
+    </body>
+</html>

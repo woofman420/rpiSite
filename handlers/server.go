@@ -77,6 +77,8 @@ func Initialize() {
 	//app.Post("/register", common.RegisterPost)
 	//app.Get("/login", common.LoginGet)
 	//app.Post("/login", common.LoginPost)
+	app.Get("/stylus", common.StylusEvalGet)
+	app.Post("/stylus", common.StylusEvalPost)
 
 	year2021 := app.Group("/2021")
 	year2021.Get("/eindgesprek", common.EindgesprekGet)

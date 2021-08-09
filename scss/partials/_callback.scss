@@ -50,6 +50,10 @@ form {
             }
         }
     }
+    textarea {
+        height: 33vh;
+        resize: vertical;
+    }
 
     > button {
         cursor: pointer;

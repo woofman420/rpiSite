@@ -1,6 +1,7 @@
 public.asc
 .vscode/
 rpiSite
+tmp.css
 backup/
 static/
 .auth

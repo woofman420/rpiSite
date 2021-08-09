@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {{ template "partials/head" . }}
+    </head>
+    <body>
+        <main style="justify-content: center; align-items: center;">
+            <h3>{{ .URl }}:</h3>
+            <div style="border: 1px solid gray;">
+                <img src="/{{ .fileName }}.png" style="width: unset; height: unset;">
+            </div>
+        </main>
+
+        {{ template "partials/footer" . }}
+    </body>
+</html>

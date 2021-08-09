@@ -27,6 +27,9 @@ var (
 	Salt = getEnv("SALT", "10")
 	// SecretCode to register a new account.
 	SecretCode = getEnv("SECRET_CODE", "scawry")
+
+	// StylusEvalDir is the directory where stylus files are stored.
+	StylusEvalDir = getEnv("STYLUS_EVAL_DIR", "/home/gusted/Desktop/coding/stylus-eval/")
 )
 
 func getEnv(value, backupValue string) string {

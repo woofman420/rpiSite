@@ -16,9 +16,9 @@ func GetCSSHash() string {
 		log.Fatal(err)
 	}
 	newHash.Write(f)
-	return hashForFileName(newHash.Sum(nil))
+	return HashForFileName(newHash.Sum(nil))
 }
 
-func hashForFileName(hashBytes []byte) string {
+func HashForFileName(hashBytes []byte) string {
 	return base32.StdEncoding.EncodeToString(hashBytes)[:8]
 }
