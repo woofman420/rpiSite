@@ -23,10 +23,10 @@ func TakeScreenshot(CSS, site, filename string) error {
 
 	// Take the screenshot.
 	cmd := exec.Command(config.StylusEvalDir+"/setup.sh", currentDir+"/tmp.css", site)
-	err = cmd.Run()
+	output, err := cmd.Output()
 
 	if err != nil {
-		log.Println("failed to take screenshot:", err)
+		log.Println("failed to take screenshot:", err, "\n", string(output))
 		return err
 	}
 
