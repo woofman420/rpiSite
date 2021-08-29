@@ -3,8 +3,8 @@ package jwt
 import (
 	"rpiSite/models"
 
-	JWTParser "github.com/form3tech-oss/jwt-go"
 	"github.com/gofiber/fiber/v2"
+	JWTParser "github.com/golang-jwt/jwt"
 )
 
 // Protected is the function to make sure the user is logged in.

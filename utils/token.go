@@ -5,7 +5,7 @@ import (
 
 	"rpiSite/config"
 
-	"github.com/form3tech-oss/jwt-go"
+	"github.com/golang-jwt/jwt"
 )
 
 // JWTTokenBuilder is wrapper around *jwt.Token but more chain-able.
