@@ -66,25 +66,17 @@ func Initialize() {
 	if config.IsProduction {
 		app.Use(limiter.New(limiter.Config{Max: 150}))
 	}
-	//	app.Use(jwt.New())
 
 	app.Get("/", common.Index)
 	app.Get("/.gpg", common.GPG)
 	app.Get("/gusted.gpg", common.GPG)
 
 	app.Get("/callback_helper", api.CallbackGet)
-	//app.Get("/register", common.RegisterGet)
-	//app.Post("/register", common.RegisterPost)
-	//app.Get("/login", common.LoginGet)
-	//app.Post("/login", common.LoginPost)
 	app.Get("/stylus", common.StylusEvalGet)
 	app.Post("/stylus", common.StylusEvalPost)
 
 	year2021 := app.Group("/2021")
 	year2021.Get("/eindgesprek", common.EindgesprekGet)
-
-	//app.Get("/account", jwt.Protected, user.AccountGet)
-
 	if config.IsDebug {
 		app.Static("/", "/static")
 	}
