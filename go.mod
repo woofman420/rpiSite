@@ -7,7 +7,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.18.0
 	github.com/gofiber/template v1.6.16
 	github.com/golang-jwt/jwt v3.2.2+incompatible
-	github.com/ohler55/ojg v1.12.5
+	github.com/ohler55/ojg v1.12.7
 	github.com/russross/blackfriday/v2 v2.1.0
 )
 
