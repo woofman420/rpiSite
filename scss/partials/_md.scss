@@ -1,0 +1,35 @@
+.md {
+    p, ul, ol { margin-bottom: 1rem }
+
+    h1 { font-size: 1.8rem }
+    h2 {
+        margin-top: 3rem;
+        font-size: 1.6rem;
+    }
+    h3 {
+        margin-top: 1rem;
+        font-size: 1.3rem;
+    }
+
+    pre {
+        padding: 0;
+        resize: unset;
+        height: unset;
+        min-height: unset;
+        overflow: unset;
+        margin-bottom: 1rem;
+
+        > code {
+            padding: 0.5rem;
+            background-color: unset;
+        }
+    }
+
+    code {
+        padding: 0.125rem 0.25rem;
+        display: inline-flex;
+        font-size: 0.875rem;
+        border-radius: 8px;
+        background-color:  var(--third-background);
+    }
+}

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"html/template"
 	"log"
 	"net/http"
 	"time"
@@ -18,7 +19,10 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/html"
 	"github.com/ohler55/ojg/oj"
+	md "github.com/russross/blackfriday/v2"
 )
+
+var ext = md.CommonExtensions | md.AutoHeadingIDs
 
 func renderEngine() *html.Engine {
 	cssHash := utils.GetCSSHash()
@@ -31,6 +35,12 @@ func renderEngine() *html.Engine {
 			return cssHash
 		}
 	})
+
+	engine.AddFunc("mdSafe", func(s string) template.HTML {
+		gen := md.Run([]byte(s), md.WithExtensions(ext))
+		return template.HTML(gen)
+	})
+
 	engine.Reload(config.IsDebug)
 	return engine
 }
@@ -74,6 +84,7 @@ func Initialize() {
 	app.Get("/callback_helper", api.CallbackGet)
 	app.Get("/stylus", common.StylusEvalGet)
 	app.Post("/stylus", common.StylusEvalPost)
+	app.Get("/docs/:fileName?", common.GetDocument)
 
 	year2021 := app.Group("/2021")
 	year2021.Get("/eindgesprek", common.EindgesprekGet)
