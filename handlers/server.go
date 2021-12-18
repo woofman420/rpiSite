@@ -53,9 +53,14 @@ func proxyHeader() (s string) {
 	return s
 }
 
-// JSONEncoder is a simple wrapper for a fast JSON ENcoder.
+// JSONEncoder is a simple wrapper for a fast JSON Encoder.
 func JSONEncoder(v interface{}) ([]byte, error) {
-	return utils.UnsafeByteConversion(oj.JSON(v, oj.Options{OmitNil: true, HTMLUnsafe: false})), nil
+	return oj.Marshal(v, &oj.Options{OmitNil: true, HTMLUnsafe: false})
+}
+
+// JSONDecoder is a simple wrapper for a fast JSON Decoder.
+func JSONDecoder(data []byte, v interface{}) error {
+	return oj.Unmarshal(data, v)
 }
 
 // Initialize the server code and listen for it.
@@ -65,6 +70,7 @@ func Initialize() {
 		Views:                 renderEngine(),
 		ProxyHeader:           proxyHeader(),
 		JSONEncoder:           JSONEncoder,
+		JSONDecoder:           JSONDecoder,
 	})
 
 	if config.IsDebug {
@@ -88,6 +94,8 @@ func Initialize() {
 
 	year2021 := app.Group("/2021")
 	year2021.Get("/eindgesprek", common.EindgesprekGet)
+	year2021.Get("/portfolio", common.PortfolioGet)
+
 	if config.IsDebug {
 		app.Static("/", "/static")
 	}
@@ -95,7 +103,6 @@ func Initialize() {
 		MaxAge: int(time.Hour) * 2,
 		Root:   http.Dir("./static"),
 	}))
-
 	app.Use(common.NotFound)
 
 	log.Fatal(app.Listen(config.Port))
