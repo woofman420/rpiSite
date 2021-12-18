@@ -17,7 +17,6 @@ $fg-dark:  rgb(230, 228, 236);
 $ac-dark:  #679CD0;
 $st-dark:  #27fffb;
 
-
 $mode: (
     "primary-background": lighten($bg-dark, 0%),
     "secondary-background": lighten($bg-dark, 5%),
@@ -39,6 +38,7 @@ $mode: (
     "third-extra": darken($st-dark, 28%),
     "fourth-extra": darken($st-dark, 36%),
     "fifth-extra": darken($st-dark, 44%),
+    "green": darken(#10f8b2, 12%),
     "background-transparent": transparentize($bg-dark, 0.3),
 );
 
