@@ -88,8 +88,6 @@ func Initialize() {
 	app.Get("/gusted.gpg", common.GPG)
 
 	app.Get("/callback_helper", api.CallbackGet)
-	app.Get("/stylus", common.StylusEvalGet)
-	app.Post("/stylus", common.StylusEvalPost)
 	app.Get("/docs/:fileName?", common.GetDocument)
 
 	year2021 := app.Group("/2021")
