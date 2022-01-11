@@ -6,7 +6,6 @@ require (
 	github.com/cespare/xxhash v1.1.0
 	github.com/gofiber/fiber/v2 v2.23.0
 	github.com/gofiber/template v1.6.20
-	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/ohler55/ojg v1.12.11
 	github.com/russross/blackfriday/v2 v2.1.0
 )

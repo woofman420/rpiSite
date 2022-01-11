@@ -80,9 +80,8 @@ build() {
     log "build"
     check_dir
 
-    CGO_ENABLED=1 CGO_CFLAGS="-O3 -g" \
     GOOS=linux go build \
-        -ldflags '-s -w -extldflags "-fno-PIC -O3"' \
+        -ldflags '-s -w' \
         -buildmode pie
 }
 

@@ -84,6 +84,7 @@ func Initialize() {
 	}
 
 	app.Get("/", common.Index)
+	app.Get("/floens", common.FloensGet)
 	app.Get("/.gpg", common.GPG)
 	app.Get("/gusted.gpg", common.GPG)
 
@@ -97,10 +98,12 @@ func Initialize() {
 	if config.IsDebug {
 		app.Static("/", "/static")
 	}
+
 	app.Use("/", filesystem.New(filesystem.Config{
 		MaxAge: int(time.Hour) * 2,
 		Root:   http.Dir("./static"),
 	}))
+
 	app.Use(common.NotFound)
 
 	log.Fatal(app.Listen(config.Port))
