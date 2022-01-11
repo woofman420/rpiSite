@@ -51,7 +51,7 @@ func FloensGet(c *fiber.Ctx) error {
 		return nil
 	}
 	c.Type(getFileExtension(stat.Name()))
-	c.Response().Header.Add("Refresh", "2")
+	c.Response().Header.Add("Refresh", "1")
 	c.Response().Header.Add("Cache-Control", "no-cache")
 	c.Response().SetBodyStream(f, int(stat.Size()))
 	return nil
