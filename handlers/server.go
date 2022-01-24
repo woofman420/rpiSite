@@ -84,7 +84,9 @@ func Initialize() {
 	}
 
 	app.Get("/", common.Index)
+
 	app.Get("/floens", common.FloensGet)
+	app.Get("/floens_img", common.FloensImageGet)
 	app.Get("/.gpg", common.GPG)
 	app.Get("/gusted.gpg", common.GPG)
 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {{ template "partials/head" . }}
+        <script>
+            let paused = false;
+            const imgURL = '/floens_img';
+            setInterval(() => {
+                if (paused) {
+                    return;
+                }
+                const timestamp = new Date().getTime();  
+                const el = document.querySelector('img');  
+                el.src = imgURL + "?t=" + timestamp;        
+            }, 1000);
+            setTimeout(() => {
+                document.querySelector(".pause-button").addEventListener('click', () => {
+                    paused = !paused;
+                    if (paused) {
+                        document.querySelector(".pause-button").textContent = 'Start';
+                    } else {
+                        document.querySelector(".pause-button").textContent = 'Pause';
+                    }
+                })
+            }, 100);
+        </script>
+    </head>
+    <body>
+        <main>
+            <div class="wrapper v-center">
+                <div style="text-align: center;">
+                    <img style="width: unset; height: 80vh" src="/floens_img" />
+                </div>
+                <div style="text-align: center;">
+                    <button class="pause-button">Pause</button>
+                </div>
+            </div>
+        </main>
+
+        {{ template "partials/footer" . }}
+    </body>
+</html>

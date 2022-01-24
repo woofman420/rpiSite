@@ -35,6 +35,10 @@ func getFileExtension(path string) string {
 }
 
 func FloensGet(c *fiber.Ctx) error {
+	return c.Render("floens", fiber.Map{})
+}
+
+func FloensImageGet(c *fiber.Ctx) error {
 	files := getFiles()
 	randNum := rand.Intn(len(files))
 	catFile := files[randNum].Name()
@@ -51,7 +55,7 @@ func FloensGet(c *fiber.Ctx) error {
 		return nil
 	}
 	c.Type(getFileExtension(stat.Name()))
-	c.Response().Header.Add("Refresh", "1")
+
 	c.Response().Header.Add("Cache-Control", "no-cache")
 	c.Response().SetBodyStream(f, int(stat.Size()))
 	return nil
